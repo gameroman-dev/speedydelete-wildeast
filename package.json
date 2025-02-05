@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/speedydelete/wildeast.git"
   },
-  "license": "GPL-3.0",
+  "license": "MPL",
   "author": "speedydelete",
   "type": "commonjs",
   "main": "index.js",
