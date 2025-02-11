@@ -1,0 +1,194 @@
+* {
+    font-family: inherit;
+    scrollbar-color: inherit;
+}
+
+/* element styles */
+
+html {
+    scrollbar-color: #79797966 #1f1f1f;
+}
+
+body {
+    background: #000000;
+    color: #ffffff;
+}
+
+header {
+    background: #000000;
+}
+
+a, a:visited {
+    text-decoration: none;
+    color: #0078d4;
+}
+
+button, .cm-search .cm-button {
+    padding: 3px 5px;
+    font-size: 14px;
+    background: #0078d4;
+    color: #ffffff;
+    border: 1px solid #ffffff12;
+}
+
+button:hover {
+    background: #026ec1;
+}
+
+button.unavailable {
+    background: #313131;
+    color: #cccccc;
+}
+
+button.unavailable:hover {
+    border: 1px solid #3c3c3c;
+}
+
+code {
+    font-family: Consolas, 'Courier New', Courier, monospace;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, tr, th, td {
+    border: 1px solid #3c3c3c;
+}
+
+th, td {
+    padding: 2px 3px;
+}
+
+/* form element styles */
+
+input {
+    font-size: 14px;
+    background: #313131;
+    color: #cccccc;
+    border: 1px solid #3c3c3c;
+}
+
+input:invalid {
+    border: 1px solid #f44747;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-text-fill-color: #cccccc;
+    -webkit-box-shadow: 0 0 0 30px #313131 inset !important;
+}
+
+td > input, td > input:invalid {
+    background: transparent;
+    border: none;
+}
+
+td:has(> input:invalid) {
+    outline: 1px solid #f44747;
+}
+
+input:focus {
+    outline: none;
+    border: 1px solid #0078d4;
+}
+
+input[type=number] {
+    appearance: textfield;
+}
+
+input[type=checkbox] {
+    border: 1px solid #3c3c3c;
+}
+
+input[type=checkbox]:checked {
+    background: #202020 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 16 16'><line x1='2' y1='9' x2='6' y2='13' stroke='white' /><line x1='6' y1='13' x2='14' y2='3' stroke='white' /></svg>");
+    border: 1px solid #cccccc;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+}
+
+[contenteditable=true]:focus {
+    outline: none;
+}
+
+label {
+    font-size: 14px;
+}
+
+select {
+    padding: 0 24px 0 5px;
+    appearance: none;
+    background-color: #313131;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 16 16'><line x1='1' y1='6' x2='6' y2='10' stroke='%23aeaeae' /><line x1='11' y1='6' x2='6' y2='10' stroke='%23aeaeae' /></svg>");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 16px;
+    color: #cccccc;
+    border: 1px solid #3c3c3c;
+}
+
+select:focus {
+    outline: none;
+    border: 1px solid #0078d4;
+}
+
+option {
+    background-color: #1f1f1f;
+}
+
+/* editor styles */
+
+#editor {
+    border-right: 1px solid #2b2b2b;
+}
+
+.cm-editor span {
+    background: inherit;
+}
+
+.cm-content {
+    z-index: 2 !important;
+}
+
+.cm-selectionBackground, ::selection {
+    background: #5886ff77 !important;
+}
+
+.cm-selectionLayer {
+    z-index: 1 !important;
+}
+
+.cm-selectionMatch {
+    background: #3a3d41fe !important;
+}
+
+.cm-activeLine {
+    background: unset !important;
+}
+
+.cm-gutters, .cm-gutter {
+    background: #1f1f1f;
+    color: #6e7681;
+}
+
+.cm-activeLineGutter {
+    color: #cccccc;
+}
+
+.cm-panels {
+    border: 1px solid #2b2b2b;
+}
+
+.cm-panels :has(> .cm-search) {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    border-top: 1px solid #3c3c3c;
+    border-right: 1px solid #3c3c3c;
+}
