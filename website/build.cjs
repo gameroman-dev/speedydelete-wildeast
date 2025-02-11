@@ -2,17 +2,47 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
+const {minify} = require('minify');
+
+const minifiedFiles = [
+    'index.html',
+    'theme.css',
+];
+
+const copiedFiles = [
+    'favicon.ico',
+    'theme.css',
+    'img/icon.svg',
+    'img/logo.svg',
+];
 
 const mode = process.argv[2];
 
-function afterWebpack(err, stats) {
+function copyFiles() {
+    console.log('build: copying files');
+    for (const file of copiedFiles) {
+        fs.copyFileSync(path.join('src', file), path.join('dist', file));
+    }
+}
+
+async function minifyFiles() {
+    console.log('build: minifying files');
+    for (const file of minifiedFiles) {
+        fs.writeFileSync(path.join('dist', file), await minify(path.join('src', file), {
+            
+        }));
+    }
+}
+
+async function afterWebpack(err, stats) {
     if (err) {
         console.log('build: error while running webpack:\n');
         console.error(err);
         return;
     }
-    console.log(stats.toString({colors: true}));
-    console.log('\nbuild: copying images');
+    console.log(stats.toString({colors: true}) + '\n');
+    copyFiles();
+    minifyFiles();
     console.log('build: complete');
 }
 
@@ -29,7 +59,7 @@ webpack({
         publicPath: '/',
     },
     resolve: {
-        extensions: ['.html', '.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.ts'],
         modules: [path.resolve(__dirname, 'node_modules')],
     },
     module: {
@@ -53,17 +83,4 @@ webpack({
         ],
     },
     devtool: mode === 'development' ? 'eval-source-map' : undefined,
-    devServer: {
-        static: {
-            directory: path.join(__dirname, 'dist'),
-        },
-        compress: true,
-        port: 9000,
-        hot: true,
-        liveReload: true,
-        watchFiles: ['src/**/*', 'dist/**/*'],
-        devMiddleware: {
-            writeToDisk: false,
-        },
-    },
 }, afterWebpack);
