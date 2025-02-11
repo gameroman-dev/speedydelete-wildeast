@@ -1,5 +1,6 @@
 
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
 
 const mode = process.argv[2];
