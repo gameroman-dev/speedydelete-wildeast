@@ -146,14 +146,16 @@ option {
 
 /* UI styles */
 
+.project {
+    border-radius: 30px;
+}
+
 #local .project {
     background-color: #003c6a;
-    border-radius: 30px;
 }
 
 #global .project {
     background-color: #33007f;
-    border-radius: 30px;
 }
 
 /* editor styles */

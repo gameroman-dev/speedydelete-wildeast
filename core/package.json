@@ -1,7 +1,7 @@
 {
-  "name": "wildeast",
+  "name": "@wildeast/core",
   "version": "0.1.0",
-  "description": "A successor to https://wildwest.gg/.",
+  "description": "Core wildeast package defining projects.",
   "homepage": "https://github.com/speedydelete/wildeast#readme",
   "bugs": {
     "url": "https://github.com/speedydelete/wildeast/issues"
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/speedydelete/wildeast.git"
   },
-  "license": "MPL",
+  "license": "MIT",
   "author": "speedydelete",
   "type": "commonjs",
   "main": "index.js",

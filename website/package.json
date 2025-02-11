@@ -1,0 +1,25 @@
+{
+    "name": "@wildeast/website",
+    "version": "0.1.0",
+    "description": "The wildeast website.",
+    "homepage": "https://github.com/speedydelete/wildeast#readme",
+    "bugs": {
+        "url": "https://github.com/speedydelete/wildeast/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/speedydelete/wildeast.git"
+    },
+    "license": "MIT",
+    "author": "speedydelete",
+    "type": "commonjs",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "webpack"
+    },
+    "dependencies": {
+        "webpack": "^5.97.1",
+        "webpack-cli": "^6.0.1",
+        "webpack-dev-server": "^5.2.0"
+    }
+}
