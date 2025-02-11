@@ -1,3 +1,3 @@
 ## wildeast
 
-Versatile online code editor and REPl. A successor to https://wildwest.gg/.
+Versatile online code editor and REPL. A successor to https://wildwest.gg/.
