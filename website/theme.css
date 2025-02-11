@@ -1,3 +1,4 @@
+
 * {
     font-family: inherit;
     scrollbar-color: inherit;
@@ -141,6 +142,18 @@ select:focus {
 
 option {
     background-color: #1f1f1f;
+}
+
+/* UI styles */
+
+#local .project {
+    background-color: #003c6a;
+    border-radius: 30px;
+}
+
+#global .project {
+    background-color: #33007f;
+    border-radius: 30px;
 }
 
 /* editor styles */
