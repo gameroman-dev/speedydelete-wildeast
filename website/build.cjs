@@ -16,6 +16,10 @@ const copiedFiles = [
     'img/logo.svg',
 ];
 
+const webpackedFiles = [
+
+];
+
 const mode = process.argv[2];
 
 function copyFiles() {
@@ -50,9 +54,7 @@ console.log('build: running webpack\n');
 
 webpack({
     mode: mode,
-    entry: {
-        index: './src/test.js',
-    },
+    entry: Object.fromEntries(webpackedFiles.map(file => [path.basename(file), path.join('src', file)])),
     output: {
         filename: 'index.js',
         path: path.resolve(__dirname, 'dist'),

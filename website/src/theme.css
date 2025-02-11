@@ -11,6 +11,7 @@ html {
 }
 
 body {
+    font-family: Arial, Helvetica, sans-serif;
     background: #000000;
     color: #ffffff;
 }
@@ -43,10 +44,6 @@ button.unavailable {
 
 button.unavailable:hover {
     border: 1px solid #3c3c3c;
-}
-
-code {
-    font-family: Consolas, 'Courier New', Courier, monospace;
 }
 
 table {
@@ -146,16 +143,21 @@ option {
 
 /* UI styles */
 
+#create {
+    border-radius: 20px;
+    background-color: #d478d4;
+}
+
 .project {
     border-radius: 30px;
 }
 
 #local .project {
-    background-color: #003c6a;
+    background-color: #0060aa;
 }
 
 #global .project {
-    background-color: #33007f;
+    background-color: #6000aa;
 }
 
 /* editor styles */
