@@ -1,5 +1,10 @@
 
-import {FileSystem, encode, decode} from 'fake-node/_fs';
+import {FileSystem, setCwdGetter, setUidGetter, setGidGetter} from 'fake-node/_fs';
+
+// remove dependancy on fake-node for _fs
+setCwdGetter(() => '/');
+setUidGetter(() => 0);
+setGidGetter(() => 0);
 
 
 export interface ProjectInfo {
@@ -28,8 +33,10 @@ export class Project implements ProjectInfo {
             this.fs = fs_or_info;
         } else {
             this.fs = new FileSystem();
+            this.fs.writeTo('project.json', '{}');
             this.name = fs_or_info.name;
             this.version = fs_or_info.version;
+            this.title = fs_or_info.title;
             this.description = fs_or_info.description;
             this.author = fs_or_info.author;
             this.license = fs_or_info.license;
@@ -43,19 +50,19 @@ export class Project implements ProjectInfo {
     }
 
     setProjectInfo(info: ProjectInfo): void {
-        this.fs.writeTo('project.json', JSON.stringify(info, undefined, 4));
+        this.fs.writeTo('project.json', JSON.stringify(info));
     }
 
     export(): Uint8Array {
         const data = this.fs.fsExport();
         let out = new Uint8Array(exportHeader.length + data.length);
-        out.set(encode(exportHeader), 0);
+        out.set((new TextEncoder()).encode(exportHeader), 0);
         out.set(data, exportHeader.length);
         return out;
     }
 
     static import(data: Uint8Array): Project {
-        const header = decode(data.slice(0, exportHeader.length));
+        const header = (new TextDecoder()).decode(data.slice(0, exportHeader.length));
         if (header !== exportHeader) {
             throw new TypeError(`invalid project file: ${data}`);
         }

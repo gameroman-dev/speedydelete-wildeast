@@ -16,7 +16,9 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "node --disable-warning=ExperimentalWarning build.cjs production",
-        "dev-build": "node --disable-warning=ExperimentalWarning build.cjs development"
+        "build-all": "node --disable-warning=ExperimentalWarning build.cjs production all",
+        "dev-build": "node --disable-warning=ExperimentalWarning build.cjs development",
+        "dev-build-all": "node --disable-warning=ExperimentalWarning build.cjs development all"
     },
     "devDependencies": {
         "@babel/preset-env": "^7.26.8",

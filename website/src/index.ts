@@ -22,18 +22,19 @@ function query(query: string): HTMLElement {
 
 
 function createProjectListEntryElement(project: Project): HTMLDivElement {
+    const info = project.getProjectInfo();
     let out = createDiv('project');
-    let icon = document.createElement('img');
-    icon.src = project.thumbnail ?? blankImage;
-    out.appendChild(icon);
-    let info = createDiv('info');
-    info.appendChild(createDiv('title', project.title));
-    info.appendChild(createDiv('description', project.description));
-    let extraInfo = createDiv('extra-info');
-    extraInfo.appendChild(createDiv('plays', String(project.plays)));
-    extraInfo.appendChild(createDiv('author', String(project.author)));
-    info.appendChild(extraInfo);
-    out.appendChild(info);
+    let iconElt = document.createElement('img');
+    iconElt.src = project.thumbnail ?? blankImage;
+    out.appendChild(iconElt);
+    let infoElt = createDiv('info');
+    infoElt.appendChild(createDiv('title', info.title));
+    infoElt.appendChild(createDiv('description', project.description));
+    let extraInfoElt = createDiv('extra-info');
+    extraInfoElt.appendChild(createDiv('author', String(project.author)));
+    extraInfoElt.appendChild(createDiv('plays', String(project.plays)));
+    infoElt.appendChild(extraInfoElt);
+    out.appendChild(infoElt);
     return out;
 }
 
