@@ -10,6 +10,7 @@ export interface ProjectInfo {
     author: string;
     license: string;
     plays: number;
+    thumbnail?: string;
 }
 
 
@@ -33,6 +34,7 @@ export class Project implements ProjectInfo {
             this.author = fs_or_info.author;
             this.license = fs_or_info.license;
             this.plays = fs_or_info.plays;
+            this.thumbnail = fs_or_info.thumbnail;
         }
     }
 
@@ -127,6 +129,16 @@ export class Project implements ProjectInfo {
     set plays(value: number) {
         let info = this.getProjectInfo();
         info.plays = value;
+        this.setProjectInfo(info);
+    }
+
+    get thumbnail(): string | undefined {
+        return this.getProjectInfo().thumbnail;
+    }
+
+    set thumbnail(value: string | undefined) {
+        let info = this.getProjectInfo();
+        info.thumbnail = value;
         this.setProjectInfo(info);
     }
 

@@ -17,7 +17,7 @@ const copiedFiles = [
 ];
 
 const webpackedFiles = [
-
+    'index.ts',
 ];
 
 const mode = process.argv[2];
@@ -45,16 +45,18 @@ async function afterWebpack(err, stats) {
         return;
     }
     console.log(stats.toString({colors: true}) + '\n');
-    copyFiles();
-    minifyFiles();
-    console.log('build: complete');
+    if (!stats.hasErrors()) {
+        copyFiles();
+        minifyFiles();
+        console.log('build: complete');
+    }
 }
 
 console.log('build: running webpack\n');
 
 webpack({
     mode: mode,
-    entry: Object.fromEntries(webpackedFiles.map(file => [path.basename(file), path.join('src', file)])),
+    entry: Object.fromEntries(webpackedFiles.map(file => [path.parse(file).name, path.resolve(path.join('./src', file))])),
     output: {
         filename: 'index.js',
         path: path.resolve(__dirname, 'dist'),
@@ -62,7 +64,10 @@ webpack({
     },
     resolve: {
         extensions: ['.js', '.ts'],
-        modules: [path.resolve(__dirname, 'node_modules')],
+        modules: [
+            path.resolve(__dirname, 'node_modules'),
+            path.resolve(__dirname, '../core/node_modules')
+        ],
     },
     module: {
         rules: [
