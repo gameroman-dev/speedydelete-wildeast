@@ -2,6 +2,15 @@
   "name": "@wildeast/core",
   "version": "0.1.0",
   "description": "Core wildeast package defining projects.",
+  "license": "MIT",
+  "author": "speedydelete",
+  "type": "commonjs",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "/src",
+    "/lib"
+  ],
   "homepage": "https://github.com/speedydelete/wildeast#readme",
   "bugs": {
     "url": "https://github.com/speedydelete/wildeast/issues"
@@ -10,11 +19,14 @@
     "type": "git",
     "url": "git+https://github.com/speedydelete/wildeast.git"
   },
-  "license": "MIT",
-  "author": "speedydelete",
-  "type": "commonjs",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "fake-node": "file:../../fake-node"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
   }
 }

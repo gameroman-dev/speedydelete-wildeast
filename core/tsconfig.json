@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "emitDeclarationOnly": false,
+        "strict": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "module": "NodeNext",
+        "outDir": "lib",
+    },
+    "files": ["./src/index.ts"],
+    "exclude": ["node_modules"],
+}
