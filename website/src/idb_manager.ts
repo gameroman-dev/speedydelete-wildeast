@@ -1,11 +1,11 @@
 
-import {Project} from 'wildeast';
+import {Project} from '@wildeast/core';
 
 
 export interface ProjectMetadata {
-    id: string;
     name: string;
     version: string;
+    title: string;
     description: string;
     author: string;
     plays: number;
@@ -26,8 +26,8 @@ function awaiter<T extends unknown>(request: IDBRequest<T> | IDBTransaction): Pr
 }
 
 async function initDB(db: IDBDatabase): Promise<void> {
-    db.createObjectStore('projects', {keyPath: 'id'});
-    db.createObjectStore('project_metadata', {keyPath: 'id'});
+    db.createObjectStore('projects', {keyPath: 'name'});
+    db.createObjectStore('project_metadata', {keyPath: 'name'});
 }
 
 async function getDB(): Promise<IDBDatabase> {
@@ -52,13 +52,13 @@ export async function getAllProjectsMetadata(): Promise<ProjectMetadata[]> {
 export async function setProject(project: Project): Promise<void> {
     let transaction = (await getDB()).transaction(['projects', 'project_metadata'], 'readwrite');
     transaction.objectStore('projects').put({
-        id: project.id,
+        name: project.name,
         data: project.export(),
     });
     transaction.objectStore('project_data').put({
-        id: project.id,
         name: project.name,
         version: project.version,
+        title: project.title,
         description: project.description,
         author: project.author,
         plays: project.plays,
