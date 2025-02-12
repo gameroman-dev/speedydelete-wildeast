@@ -1,5 +1,5 @@
 
-import {FileSystem} from 'fake-node/_fs';
+import {FileSystem, encode, decode} from 'fake-node/_fs';
 
 
 export interface ProjectInfo {
@@ -13,12 +13,27 @@ export interface ProjectInfo {
 }
 
 
+const exportHeader = 'wildeast project\n';
+
+
 export class Project implements ProjectInfo {
 
     fs: FileSystem;
 
-    constructor(name: string, info: ProjectInfo) {
-        this.fs = new FileSystem();
+    constructor(fs: FileSystem);
+    constructor(info: ProjectInfo);
+    constructor(fs_or_info: FileSystem | ProjectInfo) {
+        if (fs_or_info instanceof FileSystem) {
+            this.fs = fs_or_info;
+        } else {
+            this.fs = new FileSystem();
+            this.name = fs_or_info.name;
+            this.version = fs_or_info.version;
+            this.description = fs_or_info.description;
+            this.author = fs_or_info.author;
+            this.license = fs_or_info.license;
+            this.plays = fs_or_info.plays;
+        }
     }
 
     getProjectInfo(): ProjectInfo {
@@ -27,6 +42,22 @@ export class Project implements ProjectInfo {
 
     setProjectInfo(info: ProjectInfo): void {
         this.fs.writeTo('project.json', JSON.stringify(info, undefined, 4));
+    }
+
+    export(): Uint8Array {
+        const data = this.fs.fsExport();
+        let out = new Uint8Array(exportHeader.length + data.length);
+        out.set(encode(exportHeader), 0);
+        out.set(data, exportHeader.length);
+        return out;
+    }
+
+    static import(data: Uint8Array): Project {
+        const header = decode(data.slice(0, exportHeader.length));
+        if (header !== exportHeader) {
+            throw new TypeError(`invalid project file: ${data}`);
+        }
+        return new Project(FileSystem.fsImport(data.slice(exportHeader.length)));
     }
 
     get name(): string {
