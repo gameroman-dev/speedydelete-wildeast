@@ -73,6 +73,7 @@ main > div h2 {
     grid-auto-rows: max-content;
     grid-template-columns: 1fr;
     gap: 45px;
+    text-decoration: none;
 }
 
 .project {
@@ -108,6 +109,12 @@ main > div h2 {
     gap: 10px;
 }
 
+.project .plays {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .project .plays::before {
     display: inline-block;
     width: 0.9em;
@@ -127,26 +134,13 @@ main > div h2 {
     </head>
     <body>
         <header>
-            <a href="./index.html"><img class="logo" src="img/logo.svg" alt="wildeast" /></a>
+            <a href="."><img class="logo" src="img/logo.svg" alt="wildeast" /></a>
         </header>
         <main>
             <div id="local">
                 <div id="local-top">
                     <h2>My Projects</h2>
-                    <button id="create">+ Create</button>
-                </div>
-                <div class="projects">
-                    <div class="project">
-                        <img class="icon" src="img/icon.svg" />
-                        <div class="info">
-                            <div class="title">Test Project</div>
-                            <div class="description">Test Project</div>
-                            <div class="extra-info">
-                                <div class="plays">0</div>
-                                <div class="author">speedydelete</div>
-                            </div>
-                        </div>
-                    </div>
+                    <button id="create" onclick="alert('Sorry, you can\'t create stuff yet!');">+ Create</button>
                 </div>
             </div>
             <div id="global">

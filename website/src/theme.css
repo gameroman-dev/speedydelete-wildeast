@@ -148,6 +148,10 @@ option {
     background-color: #d478d4;
 }
 
+.projects a, .projects a:visited {
+    color: inherit;
+}
+
 .project {
     border-radius: 30px;
 }
@@ -158,6 +162,12 @@ option {
 
 #global .project {
     background-color: #6000aa;
+}
+
+main iframe {
+    background-color: white;
+    color: black;
+    border-top: 1px solid #3c3c3c;
 }
 
 /* editor styles */

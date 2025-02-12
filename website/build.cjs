@@ -8,18 +8,19 @@ const {minify} = require('minify');
 
 const minifiedFiles = [
     'index.html',
+    'run.html',
     'theme.css',
 ];
 
 const copiedFiles = [
     'favicon.ico',
-    'theme.css',
     'img/icon.svg',
     'img/logo.svg',
 ];
 
 const webpackedFiles = [
     'index.ts',
+    'run.ts',
 ];
 
 
@@ -76,7 +77,7 @@ function main() {
         mode: mode,
         entry: Object.fromEntries(webpackedFiles.map(file => [path.parse(file).name, path.resolve(path.join('./src', file))])),
         output: {
-            filename: 'index.js',
+            filename: '[name].js',
             path: path.resolve(__dirname, 'dist'),
             publicPath: '/',
         },
@@ -86,6 +87,7 @@ function main() {
                 path.resolve(__dirname, 'node_modules'),
                 path.resolve(__dirname, '../core/node_modules')
             ],
+            symlinks: true,
         },
         module: {
             rules: [
