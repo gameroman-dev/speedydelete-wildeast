@@ -46,7 +46,7 @@ function displayProjectList(elt: HTMLElement, projects: ProjectDisplayInfo[], gl
     const response = await fetch('global_projects/index.json');
     if (response.ok) {
         let data = await response.json() as ProjectDisplayInfo[];
-        data = data.sort((a, b) => a.plays - b.plays);
+        data = data.sort((a, b) => b.plays - a.plays);
         displayProjectList(query('#global .projects'), data, true);
     } else {
         query('#global .projects').innerHTML = `${response.status} ${response.statusText} while fetching global_projects/index.json`;
