@@ -12,20 +12,23 @@
     },
     "license": "MIT",
     "author": "speedydelete",
-    "type": "commonjs",
+    "type": "module",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "node --disable-warning=ExperimentalWarning build.cjs production",
-        "build-all": "node --disable-warning=ExperimentalWarning build.cjs production all",
-        "dev-build": "node --disable-warning=ExperimentalWarning build.cjs development",
-        "dev-build-all": "node --disable-warning=ExperimentalWarning build.cjs development all"
+        "setup": "mkdir -p dist  && mkdir -p dist/global_projects && echo \"[]\" > dist/global_projects/index.json",
+        "build": "node --experimental-strip-types build.ts production",
+        "build-all": "node --experimental-strip-types build.ts production all",
+        "dev-build": "node --experimental-strip-types build.ts development",
+        "dev-build-all": "node --experimental-strip-types build.ts development all",
+        "add-global-project": "node --experimental-strip-types add_global_project.ts"
     },
     "devDependencies": {
         "@babel/preset-env": "^7.26.8",
         "@babel/preset-typescript": "^7.26.0",
-        "@wildeast/core": "^0.1.0",
+        "@types/minify": "^9.1.4",
+        "@wildeast/core": "../core",
         "babel-loader": "^9.2.1",
         "minify": "^13.0.0",
+        "tsx": "^4.19.2",
         "webpack": "^5.97.1"
     }
 }

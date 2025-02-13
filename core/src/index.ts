@@ -7,15 +7,18 @@ setUidGetter(() => 0);
 setGidGetter(() => 0);
 
 
-export interface ProjectInfo {
+export interface ProjectDisplayInfo {
     name: string;
-    version: string;
     title: string;
     description: string;
     author: string;
-    license: string;
     plays: number;
     thumbnail?: string;
+}
+
+export interface ProjectInfo extends ProjectDisplayInfo {
+    version: string;
+    license: string;
 }
 
 

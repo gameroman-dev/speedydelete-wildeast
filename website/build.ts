@@ -1,9 +1,9 @@
 
-const path = require('path');
-const fs = require('fs');
-const {execSync} = require('child_process');
-const webpack = require('webpack');
-const {minify} = require('minify');
+import {join, parse, resolve as _resolve} from 'path';
+import {copyFileSync, writeFileSync} from 'fs';
+import {execSync} from 'child_process';
+import webpack from 'webpack';
+import {minify} from 'minify';
 
 
 const minifiedFiles = [
@@ -24,35 +24,37 @@ const webpackedFiles = [
 ];
 
 
-const mode = process.argv[2];
-
-function buildOthers() {
+function buildOthers(): void {
     console.log('build: building fake-node');
     execSync('cd ../../fake-node && npm run build');
     console.log('build: building @wildeast/core');
     execSync('cd ../core && npm run build');
 }
 
-function copyFiles() {
+function copyFiles(): void {
     console.log('build: copying files');
     for (const file of copiedFiles) {
-        fs.copyFileSync(path.join('src', file), path.join('dist', file));
+        copyFileSync(join('src', file), join('dist', file));
     }
 }
 
-async function minifyFiles() {
+async function minifyFiles(): Promise<void> {
     console.log('build: minifying files');
     for (const file of minifiedFiles) {
-        fs.writeFileSync(path.join('dist', file), await minify(path.join('src', file), {
+        writeFileSync(join('dist', file), await minify(join('src', file), {
             
         }));
     }
 }
 
-async function afterWebpack(err, stats) {
+async function afterWebpack(err: Error | null, stats?: webpack.Stats): Promise<void> {
     if (err) {
         console.log('build: error while running webpack:\n');
         console.error(err);
+        return;
+    }
+    if (stats === undefined) {
+        console.log('build: stats is undefined, this error should not happen');
         return;
     }
     console.log(stats.toString({colors: true}) + '\n');
@@ -73,19 +75,24 @@ function main() {
         }
     }
     console.log('build: running webpack\n');
+    const mode = process.argv[2];
+    if (mode !== 'production' && mode !== 'development') {
+        console.log('invalid mode:', mode);
+        process.exit(1);
+    }
     webpack({
         mode: mode,
-        entry: Object.fromEntries(webpackedFiles.map(file => [path.parse(file).name, path.resolve(path.join('./src', file))])),
+        entry: Object.fromEntries(webpackedFiles.map(file => [parse(file).name, _resolve(join('./src', file))])),
         output: {
             filename: '[name].js',
-            path: path.resolve(__dirname, 'dist'),
+            path: _resolve(import.meta.dirname, 'dist'),
             publicPath: '/',
         },
         resolve: {
             extensions: ['.js', '.ts'],
             modules: [
-                path.resolve(__dirname, 'node_modules'),
-                path.resolve(__dirname, '../core/node_modules')
+                _resolve(import.meta.dirname, 'node_modules'),
+                _resolve(import.meta.dirname, '../core/node_modules')
             ],
             symlinks: true,
         },

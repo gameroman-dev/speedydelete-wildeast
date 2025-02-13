@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="referrer" content="no-referrer-when-downgrade">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursor Evolution Clicker with Auto-Save</title>
+  <style>
+    @font-face {
+      font-family: 'Comic Sans MS';
+      src: url('https://fonts.cdnfonts.com/css/comic-sans-ms-2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      overflow: hidden;
+    }
+
+    #game-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #box {
+      width: 200px;
+      height: 200px;
+      border: 4px solid transparent;
+      background-color: #444;
+      position: relative;
+      cursor: pointer;
+      margin-top: 20px;
+      background-clip: padding-box;
+      animation: rainbow-border 5s linear infinite;
+    }
+
+    @keyframes rainbow-border {
+      0% {
+        border-image: linear-gradient(0deg, red, orange, yellow, green, blue, indigo, violet) 1;
+      }
+
+      100% {
+        border-image: linear-gradient(360deg, red, orange, yellow, green, blue, indigo, violet) 1;
+      }
+    }
+
+    #progress {
+      width: 0%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.3);
+      transition: width 0.1s linear;
+    }
+
+    .info-rectangle {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 10px;
+      color: white;
+      margin-bottom: 10px;
+      width: 180px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 40px;
+    }
+
+    .upgrade-rectangle {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 10px;
+      color: white;
+      margin-bottom: 10px;
+      width: 180px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #stats {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cursor {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-size: contain;
+      pointer-events: none;
+      transition: left 0.05s linear, top 0.05s linear;
+    }
+
+    .cursor.white {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path d="M0 0 L10 20 L13 13 L20 10 Z" fill="white"/></svg>');
+    }
+
+    .cursor.yellow {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path d="M0 0 L10 20 L13 13 L20 10 Z" fill="yellow"/></svg>');
+    }
+
+    #saveSystem {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 10px;
+      color: white;
+    }
+
+    input,
+    button {
+      margin-top: 5px;
+      width: 100%;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: #555;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      right: 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    #prestigeButton {
+      background-color: lightblue;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      display: none;
+      font-weight: bold;
+    }
+
+    #prestigeButton:hover {
+      background-color: #87CEFA;
+    }
+
+    #points-container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    #points-container .info-rectangle {
+      margin-bottom: 0;
+      width: 48%;
+    }
+
+    #multiplier-rectangle {
+      position: absolute;
+      top: 130px;
+      right: 10px;
+      width: auto;
+    }
+
+    #saveButtons {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #saveButtons button {
+      width: 50%;
+      height: 30px;
+    }
+
+    #notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: none;
+      z-index: 1000;
+    }
+
+    #prestigeGridButton {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      font-weight: bold;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+    }
+
+    #prestigeGridOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1001;
+    }
+
+    #prestigeGridContainer {
+      position: relative;
+      background-color: #555;
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+    }
+
+    #prestigeGrid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+    }
+
+    .prestigeCell {
+      width: 80px;
+      height: 80px;
+      background-color: #777;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      color: white;
+      font-size: 12px;
+      text-align: center;
+      padding: 2px;
+    }
+
+    .prestigeCell.unlocked {
+      background-color: #4CAF50;
+    }
+
+    #closePrestigeGrid {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 10px;
+      align-self: flex-start;
+    }
+  </style>
+
+<script>
+    (function() {
+      window.addEventListener("error", (event) => {
+        console.log("ERROR EVENT", event);
+        window.parent.postMessage({
+            type: "IFRAME_ERROR_EVENT",
+            message: event.message,
+            filename: event.filename,
+            error: event.error,
+            lineno: event.lineno,
+            colno: event.colno,
+          },
+          "*"
+        );
+      });
+
+      window.addEventListener('unhandledrejection', (event) => {
+        window.parent.postMessage(
+          {
+            type: 'IFRAME_UNHANDLED_REJECTION_EVENT',
+            message: event.reason?.message || String(event.reason),
+            stack: event.reason?.stack || null,
+            reason: event.reason,
+          },
+          '*'
+        )
+      })
+    })()
+  </script></head>
+
+<body>
+<script>
+ (function() {
+      const targetNode = document.body;
+      const config = {
+        childList: true,
+        subtree: true,
+      };
+      const callback = (mutationsList, observer) => {
+        for (const mutation of mutationsList) {
+          if (mutation.type === 'childList') {
+            mutation.addedNodes.forEach(node => {
+              if (node.tagName === 'A') {
+                node.addEventListener('click', (evt) => {
+                  evt.preventDefault();
+                  window.parent.postMessage({
+                    type: 'REQ_REDIRECT_EVENT',
+                    href: node.href,
+                    target: node.target,
+                  }, '*')
+                })
+              }
+            })
+          }
+        }
+      };
+      const observer = new MutationObserver(callback);
+      observer.observe(targetNode, config);
+    })();
+</script>
+
+  <div id="game-container">
+    <div id="points-container">
+      <div id="points-rectangle" class="info-rectangle">Points: <span id="currency">0</span></div>
+      <div id="prestige-rectangle" class="info-rectangle tooltip">
+        Prestige Points: <span id="prestigePoints">0</span>
+        <span class="tooltiptext">
+          Prestige Points are earned by prestiging. You need:
+          <br>- 10 Cursor levels
+          <br>- 20 Mouse levels
+          <br>Prestige Tab unlocks at 25 Prestige Points
+        </span>
+      </div>
+    </div>
+    <div id="progress-rectangle" class="info-rectangle">Progress: <span id="progressDisplay">0</span>%</div>
+    <div id="box">
+      <div id="progress"></div>
+    </div>
+    <button id="prestigeButton">Prestige (+0)</button>
+  </div>
+  <div id="stats">
+    <div class="upgrade-rectangle">
+      <div>Cursor Level: <span id="cursorLevel">0</span></div>
+      <div>Points to Next Cursor: <span id="pointsToCursor">10</span></div>
+      <div class="tooltip">
+        <button id="buyCursor">Buy Cursor</button>
+        <span class="tooltiptext">Increases click power by 10% and adds a floating cursor that generates 5% progress per second</span>
+      </div>
+    </div>
+    <div class="upgrade-rectangle">
+      <div>Mouse Level: <span id="mouseLevel">0</span></div>
+      <div>Points to Next Mouse: <span id="pointsToMouse">25</span></div>
+      <div class="tooltip">
+        <button id="buyMouse">Buy Mouse</button>
+        <span class="tooltiptext">Adds 1 automatic click per second (up to 8), then increases click power</span>
+      </div>
+      <div>Mouse Power: <span id="mousePower">1</span>x</div>
+    </div>
+  </div>
+  <div id="saveSystem">
+    <div id="saveButtons">
+      <button id="saveButton">Save Game</button>
+      <button id="saveToBrowserButton">Save to Browser</button>
+    </div>
+    <input type="text" id="saveCode" placeholder="Enter save code">
+    <button id="loadButton">Load Game</button>
+  </div>
+  <div id="multiplier-rectangle" class="info-rectangle">Multiplier: <span id="multiplierDisplay">1</span>x</div>
+  <div id="notification"></div>
+  <button id="prestigeGridButton">P</button>
+  <div id="prestigeGridOverlay">
+    <div id="prestigeGridContainer">
+      <div id="prestigeGrid"></div>
+      <button id="closePrestigeGrid">X</button>
+    </div>
+  </div>
+  <script>
+    let GG_ALL_GAME_CONFIG = {
+      boxSize: 200,
+      baseClickValue: 50,
+      cursorProgressValue: 10,
+      currencyPerFill: 1,
+      baseLevelUpCost: 10,
+      levelUpMultiplier: 1.5,
+      cursorSpeed: 0.2,
+      cursorUpdateInterval: 50,
+      cursorYellowLevel: 5,
+      cursorPassiveProgress: 0.5,
+      passiveUpdateInterval: 100,
+      mouseBaseCost: 25,
+      mouseCostMultiplier: 1.2,
+      mouseClickInterval: 125,
+      maxMouseLevel: 20,
+      maxClicksPerSecond: 8,
+      maxCursorLevel: 10,
+      prestigeUnlockCursor: 10,
+      prestigeUnlockMouse: 20,
+      cursorRadius: 10,
+      cursorBounceForce: 0.2,
+      prestigeCursorIncrease: 10,
+      prestigeGridUnlock: 25,
+      autoBuyUpgradeCost: 25
+    };
+    const box = document.getElementById('box');
+    const progressBar = document.getElementById('progress');
+    const currencyDisplay = document.getElementById('currency');
+    const cursorLevelDisplay = document.getElementById('cursorLevel');
+    const pointsToCursorDisplay = document.getElementById('pointsToCursor');
+    const mouseLevelDisplay = document.getElementById('mouseLevel');
+    const pointsToMouseDisplay = document.getElementById('pointsToMouse');
+    const mousePowerDisplay = document.getElementById('mousePower');
+    const progressDisplay = document.getElementById('progressDisplay');
+    const multiplierDisplay = document.getElementById('multiplierDisplay');
+    const buyCursorButton = document.getElementById('buyCursor');
+    const buyMouseButton = document.getElementById('buyMouse');
+    const saveButton = document.getElementById('saveButton');
+    const saveToBrowserButton = document.getElementById('saveToBrowserButton');
+    const loadButton = document.getElementById('loadButton');
+    const saveCodeInput = document.getElementById('saveCode');
+    const prestigeButton = document.getElementById('prestigeButton');
+    const prestigePointsDisplay = document.getElementById('prestigePoints');
+    const notification = document.getElementById('notification');
+    const prestigeGridButton = document.getElementById('prestigeGridButton');
+    const prestigeGridOverlay = document.getElementById('prestigeGridOverlay');
+    const prestigeGrid = document.getElementById('prestigeGrid');
+    const closePrestigeGridButton = document.getElementById('closePrestigeGrid');
+    let currency = 0;
+    let cursorLevel = 0;
+    let mouseLevel = 0;
+    let progress = 0;
+    let cursors = [];
+    let prestigePoints = 0;
+    let allTimePoints = 0;
+    let prestigeGridUnlocked = false;
+    let autoBuyUpgradeUnlocked = false;
+
+    function updateDisplay() {
+      currencyDisplay.textContent = Math.floor(currency);
+      cursorLevelDisplay.textContent = cursorLevel;
+      mouseLevelDisplay.textContent = mouseLevel;
+      progressDisplay.textContent = Math.floor(progress);
+      progressBar.style.width = `${progress}%`;
+      prestigePointsDisplay.textContent = prestigePoints;
+      let maxCursorLevel = GG_ALL_GAME_CONFIG.maxCursorLevel + Math.floor(prestigePoints / GG_ALL_GAME_CONFIG.prestigeCursorIncrease);
+      if (cursorLevel < maxCursorLevel) {
+        let nextCursorCost = Math.floor(GG_ALL_GAME_CONFIG.baseLevelUpCost * Math.pow(GG_ALL_GAME_CONFIG.levelUpMultiplier, cursorLevel));
+        pointsToCursorDisplay.textContent = nextCursorCost;
+        buyCursorButton.disabled = currency < nextCursorCost;
+      } else {
+        pointsToCursorDisplay.textContent = "N/A";
+        buyCursorButton.disabled = true;
+      }
+      if (mouseLevel < GG_ALL_GAME_CONFIG.maxMouseLevel) {
+        let nextMouseCost = Math.floor(GG_ALL_GAME_CONFIG.mouseBaseCost * Math.pow(GG_ALL_GAME_CONFIG.mouseCostMultiplier, mouseLevel));
+        pointsToMouseDisplay.textContent = nextMouseCost;
+        buyMouseButton.disabled = currency < nextMouseCost;
+      } else {
+        pointsToMouseDisplay.textContent = "N/A";
+        buyMouseButton.disabled = true;
+      }
+      let mousePower = Math.max(1, mouseLevel / GG_ALL_GAME_CONFIG.maxClicksPerSecond);
+      mousePowerDisplay.textContent = mousePower.toFixed(2);
+      let multiplier = Math.log(prestigePoints + 1) + 1;
+      multiplierDisplay.textContent = multiplier.toFixed(2);
+      let canPrestige = cursorLevel >= GG_ALL_GAME_CONFIG.prestigeUnlockCursor && mouseLevel >= GG_ALL_GAME_CONFIG.prestigeUnlockMouse;
+      prestigeButton.style.display = canPrestige ? 'block' : 'none';
+      if (canPrestige) {
+        let newPrestigePoints = Math.floor(Math.pow(2, Math.log10(currency)));
+        prestigeButton.textContent = `Prestige (+${newPrestigePoints})`;
+      }
+      prestigeGridButton.style.display = prestigeGridUnlocked ? 'block' : 'none';
+    }
+
+    function clickBox() {
+      let clickValue = (GG_ALL_GAME_CONFIG.baseClickValue + (cursorLevel * GG_ALL_GAME_CONFIG.cursorProgressValue)) * (Math.log(prestigePoints + 1) + 1);
+      addProgress(clickValue);
+    }
+
+    function addProgress(value) {
+      progress += value;
+      let pointsGained = Math.floor(progress / 100);
+      currency += pointsGained;
+      allTimePoints += pointsGained;
+      progress %= 100;
+      updateDisplay();
+    }
+
+    function buyCursor() {
+      let maxCursorLevel = GG_ALL_GAME_CONFIG.maxCursorLevel + Math.floor(prestigePoints / GG_ALL_GAME_CONFIG.prestigeCursorIncrease);
+      if (cursorLevel < maxCursorLevel) {
+        let cost = Math.floor(GG_ALL_GAME_CONFIG.baseLevelUpCost * Math.pow(GG_ALL_GAME_CONFIG.levelUpMultiplier, cursorLevel));
+        if (currency >= cost) {
+          currency -= cost;
+          cursorLevel++;
+          addCursor();
+          updateDisplay();
+        }
+      }
+    }
+
+    function buyMouse() {
+      if (mouseLevel < GG_ALL_GAME_CONFIG.maxMouseLevel) {
+        let cost = Math.floor(GG_ALL_GAME_CONFIG.mouseBaseCost * Math.pow(GG_ALL_GAME_CONFIG.mouseCostMultiplier, mouseLevel));
+        if (currency >= cost) {
+          currency -= cost;
+          mouseLevel++;
+          updateDisplay();
+        }
+      }
+    }
+
+    function addCursor() {
+      const cursor = document.createElement('div');
+      cursor.className = 'cursor ' + (cursorLevel >= GG_ALL_GAME_CONFIG.cursorYellowLevel ? 'yellow' : 'white');
+      cursor.style.left = `${Math.random() * (GG_ALL_GAME_CONFIG.boxSize - 20)}px`;
+      cursor.style.top = `${Math.random() * (GG_ALL_GAME_CONFIG.boxSize - 20)}px`;
+      box.appendChild(cursor);
+      cursors.push({
+        element: cursor,
+        x: parseFloat(cursor.style.left),
+        y: parseFloat(cursor.style.top),
+        dx: (Math.random() - 0.5) * GG_ALL_GAME_CONFIG.cursorSpeed,
+        dy: (Math.random() - 0.5) * GG_ALL_GAME_CONFIG.cursorSpeed
+      });
+    }
+
+    function updateCursors() {
+      for (let i = 0; i < cursors.length; i++) {
+        let cursor = cursors[i];
+        cursor.x += cursor.dx;
+        cursor.y += cursor.dy;
+        if (cursor.x <= 0 || cursor.x >= GG_ALL_GAME_CONFIG.boxSize - 20) cursor.dx *= -1;
+        if (cursor.y <= 0 || cursor.y >= GG_ALL_GAME_CONFIG.boxSize - 20) cursor.dy *= -1;
+        cursor.x = Math.max(0, Math.min(cursor.x, GG_ALL_GAME_CONFIG.boxSize - 20));
+        cursor.y = Math.max(0, Math.min(cursor.y, GG_ALL_GAME_CONFIG.boxSize - 20));
+        for (let j = i + 1; j < cursors.length; j++) {
+          let otherCursor = cursors[j];
+          let dx = cursor.x - otherCursor.x;
+          let dy = cursor.y - otherCursor.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < GG_ALL_GAME_CONFIG.cursorRadius * 2) {
+            let angle = Math.atan2(dy, dx);
+            let targetX = cursor.x + Math.cos(angle) * GG_ALL_GAME_CONFIG.cursorRadius * 2;
+            let targetY = cursor.y + Math.sin(angle) * GG_ALL_GAME_CONFIG.cursorRadius * 2;
+            let ax = (targetX - otherCursor.x) * GG_ALL_GAME_CONFIG.cursorBounceForce;
+            let ay = (targetY - otherCursor.y) * GG_ALL_GAME_CONFIG.cursorBounceForce;
+            cursor.dx += ax;
+            cursor.dy += ay;
+            otherCursor.dx -= ax;
+            otherCursor.dy -= ay;
+          }
+        }
+        cursor.element.style.left = `${cursor.x}px`;
+        cursor.element.style.top = `${cursor.y}px`;
+      }
+    }
+
+    function passiveProgress() {
+      let passiveValue = cursorLevel * GG_ALL_GAME_CONFIG.cursorPassiveProgress * (Math.log(prestigePoints + 1) + 1);
+      addProgress(passiveValue);
+      if (autoBuyUpgradeUnlocked) {
+        autoBuyUpgrades();
+      }
+    }
+
+    function mouseClicks() {
+      let clicksPerSecond = Math.min(mouseLevel, GG_ALL_GAME_CONFIG.maxClicksPerSecond);
+      let mousePower = Math.max(1, mouseLevel / GG_ALL_GAME_CONFIG.maxClicksPerSecond);
+      let clickValue = (GG_ALL_GAME_CONFIG.baseClickValue + (cursorLevel * GG_ALL_GAME_CONFIG.cursorProgressValue)) * mousePower * (Math.log(prestigePoints + 1) + 1);
+      addProgress(clickValue * clicksPerSecond / (1000 / GG_ALL_GAME_CONFIG.mouseClickInterval));
+    }
+
+    function prestige() {
+      let newPrestigePoints = Math.floor(Math.pow(2, Math.log10(currency)));
+      prestigePoints += newPrestigePoints;
+      currency = 0;
+      cursorLevel = 0;
+      mouseLevel = 0;
+      progress = 0;
+      resetCursors();
+      checkPrestigeGridUnlock();
+      updateDisplay();
+      saveToBrowser(); // Auto-save after prestige
+      showNotification('Prestiged! Game auto-saved.');
+    }
+
+    function saveGame() {
+      const saveData = {
+        currency: Math.floor(currency),
+        cursorLevel: cursorLevel,
+        mouseLevel: mouseLevel,
+        prestigePoints: prestigePoints,
+        allTimePoints: allTimePoints,
+        prestigeGridUnlocked: prestigeGridUnlocked,
+        autoBuyUpgradeUnlocked: autoBuyUpgradeUnlocked
+      };
+      const saveString = btoa(JSON.stringify(saveData));
+      saveCodeInput.value = saveString;
+      showNotification('Game saved! Save code copied to input field.');
+    }
+
+    function saveToBrowser() {
+      const saveData = {
+        currency: Math.floor(currency),
+        cursorLevel: cursorLevel,
+        mouseLevel: mouseLevel,
+        prestigePoints: prestigePoints,
+        allTimePoints: allTimePoints,
+        prestigeGridUnlocked: prestigeGridUnlocked,
+        autoBuyUpgradeUnlocked: autoBuyUpgradeUnlocked
+      };
+      const saveString = btoa(JSON.stringify(saveData));
+      document.cookie = `saveGame=${saveString}; expires=Tue, 19 Jan 2038 03:14:07 UTC; path=/`;
+      showNotification('Game saved to browser cookies!');
+    }
+
+    function loadGame() {
+      let saveString = saveCodeInput.value;
+      if (!saveString) {
+        const cookies = document.cookie.split(';');
+        const saveCookie = cookies.find(cookie => cookie.trim().startsWith('saveGame='));
+        if (saveCookie) {
+          saveString = saveCookie.split('=')[1];
+        }
+      }
+      if (saveString) {
+        try {
+          const saveData = JSON.parse(atob(saveString));
+          currency = saveData.currency;
+          cursorLevel = saveData.cursorLevel;
+          mouseLevel = saveData.mouseLevel;
+          prestigePoints = saveData.prestigePoints || 0;
+          allTimePoints = saveData.allTimePoints || currency;
+          prestigeGridUnlocked = saveData.prestigeGridUnlocked || false;
+          autoBuyUpgradeUnlocked = saveData.autoBuyUpgradeUnlocked || false;
+          resetCursors();
+          checkPrestigeGridUnlock();
+          updateDisplay();
+          showNotification('Game loaded successfully!');
+        } catch (error) {
+          showNotification('Invalid save code. Please try again.');
+        }
+      } else {
+        showNotification('No save data found. Please enter a save code or save the game first.');
+      }
+    }
+
+    function resetCursors() {
+      cursors.forEach(cursor => cursor.element.remove());
+      cursors = [];
+      for (let i = 0; i < cursorLevel; i++) {
+        addCursor();
+      }
+    }
+
+    function loadSavedGame() {
+      const cookies = document.cookie.split(';');
+      const saveCookie = cookies.find(cookie => cookie.trim().startsWith('saveGame='));
+      if (saveCookie) {
+        const saveString = saveCookie.split('=')[1];
+        saveCodeInput.value = saveString;
+        loadGame();
+      }
+    }
+
+    function showNotification(message) {
+      notification.textContent = message;
+      notification.style.display = 'block';
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 3000);
+    }
+
+    function checkPrestigeGridUnlock() {
+      if (!prestigeGridUnlocked && prestigePoints >= GG_ALL_GAME_CONFIG.prestigeGridUnlock) {
+        prestigeGridUnlocked = true;
+        showNotification('Prestige Grid unlocked!');
+      }
+    }
+
+    function createPrestigeGrid() {
+      prestigeGrid.innerHTML = '';
+      for (let i = 0; i < 25; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'prestigeCell';
+        if (i === 0) {
+          cell.textContent = autoBuyUpgradeUnlocked ? 'Auto Buy (Unlocked)' : `Auto Buy (Cost: ${GG_ALL_GAME_CONFIG.autoBuyUpgradeCost})`;
+          cell.className += autoBuyUpgradeUnlocked ? ' unlocked' : '';
+        } else {
+          cell.textContent = 'Locked';
+        }
+        cell.addEventListener('click', (event) => handlePrestigeCellClick(i, event));
+        prestigeGrid.appendChild(cell);
+      }
+    }
+
+    function handlePrestigeCellClick(index, event) {
+      if (index === 0 && !autoBuyUpgradeUnlocked && event.shiftKey) {
+        if (prestigePoints >= GG_ALL_GAME_CONFIG.autoBuyUpgradeCost) {
+          prestigePoints -= GG_ALL_GAME_CONFIG.autoBuyUpgradeCost;
+          autoBuyUpgradeUnlocked = true;
+          showNotification('Auto Buy upgrade unlocked!');
+          updateDisplay();
+          createPrestigeGrid();
+          saveToBrowser(); // Auto-save after unlocking upgrade
+        } else {
+          showNotification('Not enough Prestige Points to unlock Auto Buy.');
+        }
+      } else if (index === 0) {
+        const cell = prestigeGrid.children[index];
+        cell.textContent = autoBuyUpgradeUnlocked ?
+          'Auto Buy: Automatically buys cursor and mouse levels' :
+          `Auto Buy: Cost ${GG_ALL_GAME_CONFIG.autoBuyUpgradeCost} PP, Shift+Click to buy`;
+      } else {
+        const cell = prestigeGrid.children[index];
+        cell.textContent = 'This upgrade is not yet implemented';
+      }
+    }
+
+    function autoBuyUpgrades() {
+      let maxCursorLevel = GG_ALL_GAME_CONFIG.maxCursorLevel + Math.floor(prestigePoints / GG_ALL_GAME_CONFIG.prestigeCursorIncrease);
+      while (cursorLevel < maxCursorLevel) {
+        let cost = Math.floor(GG_ALL_GAME_CONFIG.baseLevelUpCost * Math.pow(GG_ALL_GAME_CONFIG.levelUpMultiplier, cursorLevel));
+        if (currency >= cost) {
+          currency -= cost;
+          cursorLevel++;
+          addCursor();
+        } else {
+          break;
+        }
+      }
+      while (mouseLevel < GG_ALL_GAME_CONFIG.maxMouseLevel) {
+        let cost = Math.floor(GG_ALL_GAME_CONFIG.mouseBaseCost * Math.pow(GG_ALL_GAME_CONFIG.mouseCostMultiplier, mouseLevel));
+        if (currency >= cost) {
+          currency -= cost;
+          mouseLevel++;
+        } else {
+          break;
+        }
+      }
+      updateDisplay();
+    }
+    box.addEventListener('click', clickBox);
+    buyCursorButton.addEventListener('click', buyCursor);
+    buyMouseButton.addEventListener('click', buyMouse);
+    saveButton.addEventListener('click', saveGame);
+    saveToBrowserButton.addEventListener('click', saveToBrowser);
+    loadButton.addEventListener('click', loadGame);
+    prestigeButton.addEventListener('click', prestige);
+    prestigeGridButton.addEventListener('click', () => {
+      prestigeGridOverlay.style.display = 'flex';
+      createPrestigeGrid();
+    });
+    closePrestigeGridButton.addEventListener('click', () => {
+      prestigeGridOverlay.style.display = 'none';
+    });
+    setInterval(updateCursors, GG_ALL_GAME_CONFIG.cursorUpdateInterval);
+    setInterval(passiveProgress, GG_ALL_GAME_CONFIG.passiveUpdateInterval);
+    setInterval(mouseClicks, GG_ALL_GAME_CONFIG.mouseClickInterval);
+    loadSavedGame();
+    updateDisplay();
+  </script>
+
+</body>
+
+</html>
