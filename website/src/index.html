@@ -19,22 +19,58 @@
 html, body {
     height: 100%;
     margin: 0;
+    padding: 0;
 }
+
+/* header */
 
 header {
     position: sticky;
     top: 0;
     left: 0;
     right: 0;
-    padding: 10px;
+    height: min(70px, 10%);
+}
+
+header nav {
+    height: 100%;
+    width: 100%;
+}
+
+header ul {
+    height: 100%;
+    padding: 25px;
+    margin: 0;
+    list-style: none;
     display: flex;
     flex-direction: row;
-    height: min(50px, 10%);
+    align-items: center;
+    gap: 30px;
+    user-select: none;
+}
+
+header li {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+header a:has(> .logo) {
+    height: 100%;
 }
 
 header .logo {
     height: 100%;
+    width: auto;
+    max-width: 100%;
 }
+
+#local-global-switch {
+    display: none;
+}
+
+/* main */
 
 main {
     padding: 0 45px 45px;
@@ -141,14 +177,33 @@ main > div h2 {
         display: none;
     }
 
+    #local-global-switch {
+        display: block;
+    }
+
 }
+
+
+@media (width > 800px) {
+
+    #local, #global {
+        display: block !important;
+    }
+
+}
+
 
         </style>
         <link rel="stylesheet" href="theme.css" />
     </head>
     <body>
         <header>
-            <a href="."><img class="logo" src="img/logo.svg" alt="wildeast" /></a>
+            <nav>
+                <ul>
+                    <li><a href="."><img class="logo" src="img/logo.svg" alt="wildeast" /></a></li>
+                    <li id="local-global-switch">My Projects</li>
+                </ul>
+            </nav>
         </header>
         <main>
             <div id="local">
@@ -156,22 +211,11 @@ main > div h2 {
                     <h2>My Projects</h2>
                     <button id="create" onclick="alert('Sorry, you can\'t create stuff yet!');">+ Create</button>
                 </div>
+                <div class="projects"></div>
             </div>
             <div id="global">
                 <h2>Community Projects</h2>
-                <div class="projects">
-                    <!-- <div class="project">
-                        <img class="icon" src="https://www.whatbeatsrock.com/icon.ico" />
-                        <div class="info">
-                            <div class="title">What Beats Rock?</div>
-                            <div class="description">Play Rock Paper Scissors but it... keeps going?</div>
-                            <div class="extra-info">
-                                <div class="plays">0</div>
-                                <div class="author">kyle</div>
-                            </div>
-                        </div>
-                    </div> -->
-                </div>
+                <div class="projects"></div>
             </div>
         </main>
         <script src="index.js"></script>

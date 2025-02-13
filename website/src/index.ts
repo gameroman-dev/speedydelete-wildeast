@@ -52,3 +52,23 @@ function displayProjectList(elt: HTMLElement, projects: ProjectDisplayInfo[], gl
         query('#global .projects').innerHTML = `${response.status} ${response.statusText} while fetching global_projects/index.json`;
     }
 })();
+
+
+let localSection = document.getElementById('local');
+let globalSection = document.getElementById('global');
+let localGlobalSwitch = document.getElementById('local-global-switch');
+if (localSection && globalSection && localGlobalSwitch) {
+    let globalShown = true;
+    localGlobalSwitch.addEventListener('click', () => {
+        globalShown = !globalShown;
+        if (globalShown) {
+            localGlobalSwitch.textContent = 'My Projects';
+            globalSection.style.display = 'block';
+            localSection.style.display = 'none';
+        } else {
+            localGlobalSwitch.textContent = 'Community Projects';
+            globalSection.style.display = 'none';
+            localSection.style.display = 'block';
+        }
+    });
+}
