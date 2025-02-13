@@ -1,5 +1,5 @@
 
-import {readFileSync, writeFileSync} from 'fs';
+import {readFileSync, writeFileSync, rmSync} from 'fs';
 import {promises as readline} from 'readline';
 import {Project, type ProjectDisplayInfo} from '@wildeast/core';
 import {minify} from 'minify';
@@ -64,10 +64,11 @@ async function main(): Promise<void> {
     } else {
         code = readFileSync(codeLocation).toString('utf8');
     }
-    writeFileSync('temp.html', code);
+    writeFileSync('.temp.html', code);
     console.log('minifying');
-    code = await minify('temp.html', {});
+    code = await minify('.temp.html', {});
     project.fs.writeTo('index.html', code);
+    rmSync('.temp.html');
     writeFileSync(`dist/global_projects/${project.name}.project`, project.export());
     const projectIndex = JSON.parse(readFileSync('dist/global_projects/index.json').toString('utf8'));
     projectIndex.push(metadata);
