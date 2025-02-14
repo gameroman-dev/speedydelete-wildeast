@@ -1,4 +1,10 @@
 
+/*
+    * @wildeast-name default
+    * @wildeast-title Default
+    * @wildeast-type dark
+*/
+
 * {
     font-family: inherit;
     scrollbar-color: inherit;
@@ -184,50 +190,94 @@ main iframe {
 
 /* editor styles */
 
-#editor {
-    border-right: 1px solid #2b2b2b;
+#editor .cm-editor {
+    background: #1f1f1f;
+    color: #cccccc;
 }
 
-.cm-editor span {
+#editor .cm-editor span {
     background: inherit;
 }
 
-.cm-content {
+#editor .cm-content {
     z-index: 2 !important;
 }
 
-.cm-selectionBackground, ::selection {
+#editor .cm-cursor {
+    border-left-color: #c6c6c6;
+}
+
+#editor .cm-selectionBackground, ::selection {
     background: #5886ff77 !important;
 }
 
-.cm-selectionLayer {
+#editor .cm-selectionLayer {
     z-index: 1 !important;
 }
 
-.cm-selectionMatch {
+#editor .cm-selectionMatch {
     background: #3a3d41fe !important;
 }
 
-.cm-activeLine {
+#editor .cm-activeLine {
     background: unset !important;
 }
 
-.cm-gutters, .cm-gutter {
+#editor .cm-gutters, #editor .cm-gutter {
     background: #1f1f1f;
     color: #6e7681;
 }
 
-.cm-activeLineGutter {
+#editor .cm-activeLineGutter {
+    background: #1f1f1f;
     color: #cccccc;
 }
 
-.cm-panels {
+#editor .cm-panels {
     border: 1px solid #2b2b2b;
 }
 
-.cm-panels :has(> .cm-search) {
+#editor .cm-panels :has(> .cm-search) {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     border-top: 1px solid #3c3c3c;
     border-right: 1px solid #3c3c3c;
 }
+
+/*
+    * @wildeast-token heading {"fontWeight": "bold"}
+    * @wildeast-token strong {"fontWeight": "bold"}
+    * @wildeast-token emphasis {"fontWeight": "italic"}
+    * @wildeast-token strikethrough {"textDecoration": "line-through"}
+    * @wildeast-token link {"color": "#6a9955", "textDecoration": "underline"}
+    * @wildeast-token comment #69aa55
+    * @wildeast-token invalid #f44747
+    * @wildeast-token variableName #9cdcfe
+    * @wildeast-token typeName #5c9cd6
+    * @wildeast-token propertyName #9cdcfe
+    * @wildeast-token className #4ec9b0
+    * @wildeast-token constant(name) #4fc1ff
+    * @wildeast-token function(name) #dcdcaa
+    * @wildeast-token string #ce9178
+    * @wildeast-token number #b5cea8
+    * @wildeast-token bool #5c9cd6
+    * @wildeast-token regexp #d16969
+    * @wildeast-token escape #d7ba7d
+    * @wildeast-token color #ce9178
+    * @wildeast-token keyword #569cd6
+    * @wildeast-token controlKeyword #c586c0
+    * @wildeast-token moduleKeyword #c586c0
+    * @wildeast-token self #569cd6
+    * @wildeast-token null #569cd6
+    * @wildeast-token atom #569cd6
+    * @wildeast-token unit #569cd6
+    * @wildeast-token operator #d4d4d4
+    * @wildeast-token angleBracket #808080
+    * @wildeast-token paren #569cd6
+    * @wildeast-token brace #b267e6
+    * @wildeast-token documentMeta #6a9955
+    * @wildeast-token inserted #b5cea8
+    * @wildeast-token deleted #ce9178
+    * @wildeast-token changed #569cd6
+    * @wildeast-bracket-colors #d7ba7d #b267e6 #5c9cd6
+*/

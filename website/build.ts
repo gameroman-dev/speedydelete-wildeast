@@ -1,8 +1,9 @@
 
-import {join, parse, resolve as _resolve} from 'path';
+import {join, parse, resolve as resolve} from 'path';
 import {copyFileSync, writeFileSync} from 'fs';
 import {execSync} from 'child_process';
 import webpack from 'webpack';
+import WatchExternalFilesPlugin from 'webpack-watch-external-files-plugin';
 import {minify} from 'minify';
 
 
@@ -49,6 +50,7 @@ async function minifyFiles(): Promise<void> {
     }
 }
 
+
 async function afterWebpack(err: Error | null, stats?: webpack.Stats): Promise<void> {
     if (err) {
         console.log('build: error while running webpack:\n');
@@ -65,7 +67,23 @@ async function afterWebpack(err: Error | null, stats?: webpack.Stats): Promise<v
         await minifyFiles();
         console.log('build: complete');
     }
+    if (compiler !== undefined && !compiler.watching) {
+        compiler.close(() => {});
+    }
 }
+
+
+if (process.argv.includes('all')) {
+    try {
+        buildOthers();
+    } catch (error) {
+        console.log(error.stdout.toString('utf8'));
+        process.exit(1);
+    }
+}
+
+
+const mode = process.argv.includes('dev') ? 'development' : 'production';
 
 const customJSXPreset = [
     '@babel/preset-react',
@@ -75,59 +93,60 @@ const customJSXPreset = [
     },
 ];
 
-function main() {
-    if (process.argv.includes('all')) {
-        try {
-            buildOthers();
-        } catch (error) {
-            console.log(error.stdout.toString('utf8'));
-            return;
-        }
-    }
-    console.log('build: running webpack\n');
-    const mode = process.argv[2];
-    if (mode !== 'production' && mode !== 'development') {
-        console.log('invalid mode:', mode);
-        process.exit(1);
-    }
-    webpack({
-        mode: mode,
-        entry: Object.fromEntries(webpackedFiles.map(file => [parse(file).name, _resolve(join('./src', file))])),
-        output: {
-            filename: '[name].js',
-            path: _resolve(import.meta.dirname, 'dist'),
-            publicPath: '/',
-        },
-        resolve: {
-            extensions: ['.js', '.ts'],
-            modules: [
-                _resolve(import.meta.dirname, 'node_modules'),
-                _resolve(import.meta.dirname, '../core/node_modules')
-            ],
-            symlinks: true,
-        },
-        module: {
-            rules: [
-                {
-                    test: /\.js$/,
-                    loader: 'babel-loader',
-                    options: {presets: ['@babel/preset-env']},
-                },
-                {
-                    exclude: /node_modules/,
-                    test: /\.ts$/,
-                    loader: 'babel-loader',
-                    options: {presets: ['@babel/preset-env', '@babel/preset-typescript']},
-                },
-                {
-                    test: /\.tsx$/,
-                    loader: 'babel-loader',
-                    options: {presets: ['@babel/preset-env', '@babel/preset-typescript', customJSXPreset]},
-                },
-            ],
-        },
-        devtool: mode === 'development' ? 'source-map' : undefined,
-    }, afterWebpack);
-}
+console.log('build: running webpack\n');
 
-main();
+const compiler = webpack({
+    mode: mode,
+    entry: Object.fromEntries(webpackedFiles.map(file => [parse(file).name, resolve(join('./src', file))])),
+    output: {
+        filename: '[name].js',
+        path: resolve(import.meta.dirname, 'dist'),
+        publicPath: '/',
+    },
+    resolve: {
+        extensions: ['.js', '.ts', '.jsx', '.tsx'],
+        modules: [
+            resolve(import.meta.dirname, 'node_modules'),
+            resolve(import.meta.dirname, '../core/node_modules')
+        ],
+        symlinks: true,
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                options: {presets: ['@babel/preset-env']},
+            },
+            {
+                exclude: /node_modules/,
+                test: /\.ts$/,
+                loader: 'babel-loader',
+                options: {presets: ['@babel/preset-env', '@babel/preset-typescript']},
+            },
+            {
+                test: /\.tsx$/,
+                loader: 'babel-loader',
+                options: {presets: ['@babel/preset-env', customJSXPreset]},
+            },
+            {
+                test: /\.tsx$/,
+                loader: 'babel-loader',
+                options: {presets: ['@babel/preset-env', '@babel/preset-typescript', customJSXPreset]},
+            },
+        ],
+    },
+    devtool: mode === 'development' ? 'source-map' : undefined,
+    plugins: [
+        new webpack.ProvidePlugin({
+            'JSX': './jsx'
+        }),
+        new WatchExternalFilesPlugin({files: copiedFiles.concat(minifiedFiles).map(path => resolve(import.meta.dirname, 'src', path))}),
+    ],
+});
+
+if (process.argv.includes('watch')) {
+    compiler.watch({}, afterWebpack);
+} else {
+    compiler.run(afterWebpack);
+}

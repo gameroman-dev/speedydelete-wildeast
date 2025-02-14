@@ -15,22 +15,28 @@
     "type": "module",
     "scripts": {
         "setup": "mkdir -p dist  && mkdir -p dist/global_projects && echo \"[]\" > dist/global_projects/index.json",
-        "build": "node --experimental-strip-types build.ts production",
-        "build-all": "node --experimental-strip-types build.ts production all",
-        "dev-build": "node --experimental-strip-types build.ts development",
-        "dev-build-all": "node --experimental-strip-types build.ts development all",
-        "add-global-project": "node --experimental-strip-types add_global_project.ts"
+        "build": "node --experimental-strip-types build.ts"
     },
     "devDependencies": {
         "@babel/preset-env": "^7.26.8",
         "@babel/preset-react": "^7.26.3",
         "@babel/preset-typescript": "^7.26.0",
+        "@codemirror/autocomplete": "^6.18.6",
+        "@codemirror/commands": "^6.8.0",
+        "@codemirror/lang-html": "^6.4.9",
+        "@codemirror/language": "^6.10.8",
+        "@codemirror/lint": "^6.8.4",
+        "@codemirror/search": "^6.5.9",
+        "@codemirror/state": "^6.5.2",
+        "@lezer/highlight": "^1.2.1",
         "@types/minify": "^9.1.4",
         "@wildeast/core": "../core",
         "babel-loader": "^9.2.1",
+        "codemirror": "^6.0.1",
         "html-element-attributes-typescript": "^1.0.1",
         "minify": "^13.0.0",
         "tsx": "^4.19.2",
-        "webpack": "^5.97.1"
+        "webpack": "^5.97.1",
+        "webpack-watch-external-files-plugin": "^3.1.0"
     }
 }
