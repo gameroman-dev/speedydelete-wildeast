@@ -22,6 +22,19 @@ html, body {
     padding: 0;
 }
 
+/* elements */
+
+h2 {
+    font-size: 2rem;
+    text-align: center;
+}
+
+.x-button {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+}
+
 /* header */
 
 header {
@@ -87,11 +100,6 @@ main > div {
     overflow-y: auto;
 }
 
-main > div h2 {
-    font-size: 2rem;
-    text-align: center;
-}
-
 #local-top {
     display: flex;
     flex-direction: row;
@@ -99,10 +107,12 @@ main > div h2 {
     align-items: center;
 }
 
-#create {
+#open-create-form-button {
     padding: 10px;
     font-size: 1.5rem;
 }
+
+/* projects */
 
 .projects {
     display: grid;
@@ -165,6 +175,59 @@ main > div h2 {
     content: '@';
 }
 
+/* creation */
+
+#create-form {
+    display: none;
+    position: absolute;
+    top: 10%;
+    bottom: 50%;
+    left: 25%;
+    right: 25%;
+    z-index: 1;
+    padding: 0 20px;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 1.25rem;
+}
+
+#create-form > label {
+    color: #aaaaaa;
+    font-size: 0.75rem;
+    margin-bottom: 15px;
+}
+
+#create-form-input-name {
+    width: 16ch;
+}
+
+#create-form-input-title {
+    width: 32ch;
+}
+
+#create-button {
+    padding: 10px;
+    font-size: 1.25rem;
+}
+
+/* media queries */
+
+@media (min-width: 1200px) {
+
+    #create-form {
+        left: 35%;
+        right: 35%;
+    }
+
+}
+
+@media (min-width: 800px) {
+
+    #local, #global {
+        display: block !important;
+    }
+
+}
 
 @media (max-width: 799px) {
 
@@ -181,13 +244,18 @@ main > div h2 {
         display: block;
     }
 
+    #create-form {
+        left: 15%;
+        right: 15%;
+    }
+
 }
 
+@media (max-width: 499px) {
 
-@media (min-width: 800px) {
-
-    #local, #global {
-        display: block !important;
+    #create-form {
+        left: 5%;
+        right: 5%;
     }
 
 }
@@ -209,13 +277,22 @@ main > div h2 {
             <div id="local">
                 <div id="local-top">
                     <h2>My Projects</h2>
-                    <button id="create" onclick="alert('Sorry, you can\'t create stuff yet!');">+ Create</button>
+                    <button id="open-create-form-button" class="create-button">+ Create</button>
                 </div>
                 <div class="projects"></div>
             </div>
             <div id="global">
                 <h2>Community Projects</h2>
                 <div class="projects"></div>
+            </div>
+            <div id="create-form">
+                <button class="x-button"></button>
+                <h2>Create Project</h2>
+                <div><label for="id">ID:&nbsp;</label><input type="text" name="id" id="create-input-name" required maxlength="16" pattern="^[a-z0-9._~\-]*$" /></div>
+                <label for="id">The internal ID for the project</label>
+                <div><label for="name">Name:&nbsp;</label><input type="text" name="name" id="create-input-title" required maxlength="32" /></div>
+                <label for="name">The public name of the project</label>
+                <div><button id="create-button" class="create-button">Create</button></div>
             </div>
         </main>
         <script src="index.js"></script>

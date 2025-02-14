@@ -23,7 +23,7 @@ function query(query: string): HTMLElement {
 
 function createProjectListEntryElement(info: ProjectDisplayInfo, global: boolean = false): HTMLAnchorElement {
     let out = create('a', 'project');
-    out.href = `./run.html?name=${info.name}${global ? '&global=true' : ''}`;
+    out.href = `./run?name=${info.name}${global ? '&global=true' : ''}`;
     let iconElt = document.createElement('img');
     iconElt.src = info.thumbnail ?? blankImage;
     out.appendChild(iconElt);
@@ -54,21 +54,50 @@ function displayProjectList(elt: HTMLElement, projects: ProjectDisplayInfo[], gl
 })();
 
 
-let localSection = document.getElementById('local');
-let globalSection = document.getElementById('global');
-let localGlobalSwitch = document.getElementById('local-global-switch');
-if (localSection && globalSection && localGlobalSwitch) {
-    let globalShown = true;
-    localGlobalSwitch.addEventListener('click', () => {
-        globalShown = !globalShown;
-        if (globalShown) {
-            localGlobalSwitch.textContent = 'My Projects';
-            globalSection.style.display = 'block';
-            localSection.style.display = 'none';
-        } else {
-            localGlobalSwitch.textContent = 'Community Projects';
-            globalSection.style.display = 'none';
-            localSection.style.display = 'block';
-        }
-    });
-}
+let localSection = query('#local');
+let globalSection = query('#global');
+let localGlobalSwitch = query('#local-global-switch');
+let globalShown = true;
+localGlobalSwitch.addEventListener('click', () => {
+    globalShown = !globalShown;
+    if (globalShown) {
+        localGlobalSwitch.textContent = 'My Projects';
+        globalSection.style.display = 'block';
+        localSection.style.display = 'none';
+    } else {
+        localGlobalSwitch.textContent = 'Community Projects';
+        globalSection.style.display = 'none';
+        localSection.style.display = 'block';
+    }
+});
+
+
+let createFormElt = query('#create-form');
+query('#open-create-form-button').addEventListener('click', () => {
+    createFormElt.style.display = 'flex';
+});
+query('#create-form .x-button').addEventListener('click', () => {
+    createFormElt.style.display = 'none';
+});
+
+query('#create-button').addEventListener('click', () => {
+    const name = (query('#create-input-name') as HTMLInputElement).value;
+    const title = (query('#create-input-title') as HTMLInputElement).value;
+    if (!name.match(/^[a-z0-9._~\-]*$/)) {
+        alert('ID contains invalid characters');
+        return;
+    }
+    if (name.length > 16) {
+        alert('ID cannot be more than 16 characters');
+        return;
+    }
+    if (title.length > 32) {
+        alert('Name cannot be more than 32 characters');
+        return;
+    }
+    if (name.length === 0 || title.length === 0) {
+        alert('ID or name cannot be empty');
+        return;
+    }
+    window.location.replace(`edit.html?${new URLSearchParams({name, title})}`);
+});

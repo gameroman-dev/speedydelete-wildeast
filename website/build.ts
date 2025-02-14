@@ -9,6 +9,7 @@ import {minify} from 'minify';
 const minifiedFiles = [
     'index.html',
     'run.html',
+    'edit.html',
     'theme.css',
 ];
 
@@ -21,6 +22,7 @@ const copiedFiles = [
 const webpackedFiles = [
     'index.ts',
     'run.ts',
+    'edit.ts',
 ];
 
 

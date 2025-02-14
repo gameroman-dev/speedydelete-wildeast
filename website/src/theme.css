@@ -27,7 +27,6 @@ a, a:visited {
 
 button, .cm-search .cm-button {
     padding: 3px 5px;
-    font-size: 14px;
     background: #0078d4;
     color: #ffffff;
     border: 1px solid #ffffff12;
@@ -58,16 +57,23 @@ th, td {
     padding: 2px 3px;
 }
 
+.x-button, .x-button:hover {
+    height: 1.5em;
+    width: 1.5em;
+    background-color: transparent;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 12 12'><line x1='1' y1='1' x2='11' y2='11' stroke='white' /><line x1='1' y1='11' x2='11' y2='1' stroke='white' /></svg>");
+    border: none;
+}
+
 /* form element styles */
 
 input {
-    font-size: 14px;
     background: #313131;
     color: #cccccc;
     border: 1px solid #3c3c3c;
 }
 
-input:invalid {
+input:user-invalid {
     border: 1px solid #f44747;
 }
 
@@ -79,12 +85,12 @@ input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px #313131 inset !important;
 }
 
-td > input, td > input:invalid {
+td > input, td > input:user-invalid {
     background: transparent;
     border: none;
 }
 
-td:has(> input:invalid) {
+td:has(> input:user-invalid) {
     outline: 1px solid #f44747;
 }
 
@@ -116,10 +122,6 @@ input::-webkit-inner-spin-button {
     outline: none;
 }
 
-label {
-    font-size: 14px;
-}
-
 select {
     padding: 0 24px 0 5px;
     appearance: none;
@@ -143,9 +145,13 @@ option {
 
 /* UI styles */
 
-#create {
+.create-button {
     border-radius: 20px;
     background-color: #d478d4;
+}
+
+.create-button:hover {
+    background-color: #c16ec1;
 }
 
 .projects a, .projects a:visited {
@@ -162,6 +168,12 @@ option {
 
 #global .project {
     background-color: #6000aa;
+}
+
+#create-form {
+    background-color: #000000;
+    border: 1px solid #3c3c3c;
+    border-radius: 50px;
 }
 
 main iframe {

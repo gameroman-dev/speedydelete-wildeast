@@ -17,6 +17,10 @@ window.addEventListener('load', async () => {
             if (frame) {
                 frame.srcdoc = project.fs.readFrom('index.html');
             }
+            let title = document.querySelector('title');
+            if (title) {
+                title.textContent = `Running ${project.title}`;
+            }
         } else if (response.status === 404 && frame && frame.contentWindow) {
             frame.contentWindow.document.body.innerHTML = `<pre>Global project ${name} does not exist.</pre>`;
         } else {
