@@ -1,0 +1,125 @@
+::ffff:127.0.0.1 - - [14/Feb/2025 16:38:19] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:38:19] "GET /dist/theme.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:38:20] "GET /dist/edit.js HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:38:41] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:38:41] "GET /dist/edit.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:38:41] "GET /dist/theme.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:39:35] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:39:35] "GET /dist/edit.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:39:35] "GET /dist/theme.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:12] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:12] "GET /dist/edit.js HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:12] "GET /dist/theme.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:12] "GET /dist/img/logo.svg HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:12] "GET /dist/favicon.ico HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:19] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:19] "GET /dist/edit.js HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:19] "GET /dist/theme.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:19] "GET /dist/img/logo.svg HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:19] "GET /dist/favicon.ico HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:25] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:25] "GET /dist/theme.css HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:55] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:55] "GET /dist/edit.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:40:55] "GET /dist/theme.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:41:42] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:41:42] "GET /dist/edit.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:41:42] "GET /dist/theme.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:41:45] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:41:45] "GET /dist/theme.css HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:06] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:06] "GET /dist/theme.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:06] "GET /dist/edit.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:25] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:25] "GET /dist/theme.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:26] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:26] "GET /dist/theme.css HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:26] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:26] "GET /dist/theme.css HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:26] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:26] "GET /dist/theme.css HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:27] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:27] "GET /dist/theme.css HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:33] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:33] "GET /dist/theme.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:33] "GET /dist/edit.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:39] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:39] "GET /dist/theme.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:39] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:39] "GET /dist/theme.css HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:47] "GET /dist/ HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:47] "GET /dist/theme.css HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:47] "GET /dist/index.js HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:47] "GET /dist/global_projects/index.json HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:42:48] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:43:10] "GET /dist/run.html?name=chained&global=true HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:43:10] "GET /dist/theme.css HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:43:10] "GET /dist/run.js HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:43:10] "GET /dist/global_projects/chained.project HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:29] "GET /dist/run.html?name=chained&global=true HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:29] "GET /dist/theme.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:29] "GET /dist/global_projects/chained.project HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('::ffff:127.0.0.1', 53636, 0, 0)
+Traceback (most recent call last):
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 692, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 761, in __init__
+    self.handle()
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 840, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+----------------------------------------
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:32] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:34] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:34] "GET /dist/theme.css HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:34] "GET /dist/edit.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:43] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:43] "GET /dist/theme.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:43] "GET /dist/favicon.ico HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:43] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:43] "GET /dist/theme.css HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:44] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:44] "GET /dist/theme.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:44:44] "GET /dist/favicon.ico HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('::ffff:127.0.0.1', 53649, 0, 0)
+Traceback (most recent call last):
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 692, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 761, in __init__
+    self.handle()
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\speed\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 840, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+----------------------------------------
+::ffff:127.0.0.1 - - [14/Feb/2025 16:45:04] "GET /dist/edit.html?name=t HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [14/Feb/2025 16:45:04] "GET /dist/theme.css HTTP/1.1" 200 -
