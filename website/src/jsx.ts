@@ -10,14 +10,12 @@ type HTMLAttributesMap<T extends keyof HTMLElementTagNameMap> = (typeof EnumHtml
 type ReverseHTMLElementTagNameMap<T extends HTMLElement> = {[K in keyof HTMLElementTagNameMap]: HTMLElementTagNameMap[K] extends T ? K : never}[keyof HTMLElementTagNameMap];
 
 
-export function createElement<T extends HTMLElement | (keyof HTMLElementTagNameMap) | ((props: {children?: Node[], [key: string]: unknown}) => HTMLElement | DocumentFragment)>(type: T, props: {[key: string]: unknown} = {}, children: Node | Node[]): HTMLElement | DocumentFragment {
-    if (!(children instanceof Array)) {
-        children = [children];
-    }
+export function createElement<T extends HTMLElement | (keyof HTMLElementTagNameMap) | ((props: {children?: Node[], [key: string]: unknown}) => HTMLElement | DocumentFragment)>(type: T, props: {[key: string]: unknown} = {}, ...children: (Node | Node[])[]): HTMLElement | DocumentFragment {
+    const flatChildren: Node[] = children.flat();
     if (typeof type === 'function') {  
         if (props.children === undefined) {
             if (children.length > 0) {
-                props.children = children;
+                props.children = flatChildren;
             } else {
                 props.children = [];
             }
@@ -33,8 +31,7 @@ export function createElement<T extends HTMLElement | (keyof HTMLElementTagNameM
         for (const [key, value] of Object.entries(props)) {
             elt.setAttribute(key, String(value));
         }
-        for (const child of children) {
-            // console.log('appending', elt, child);
+        for (const child of flatChildren) {
             elt.append(child);
         }
         return elt;
@@ -61,6 +58,7 @@ export function query(query: string): HTMLElement {
 export const JSX = {
     createElement,
     Fragment,
+    query,
 }
 
 export default JSX;

@@ -126,7 +126,7 @@ function main() {
                 },
             ],
         },
-        devtool: mode === 'development' ? 'eval-source-map' : undefined,
+        devtool: mode === 'development' ? 'source-map' : undefined,
     }, afterWebpack);
 }
 
