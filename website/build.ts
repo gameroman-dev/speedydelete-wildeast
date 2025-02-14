@@ -138,9 +138,7 @@ const compiler = webpack({
     },
     devtool: mode === 'development' ? 'source-map' : undefined,
     plugins: [
-        new webpack.ProvidePlugin({
-            'JSX': './jsx'
-        }),
+        new webpack.ProvidePlugin({'JSX': './jsx'}),
         new WatchExternalFilesPlugin({files: copiedFiles.concat(minifiedFiles).map(path => resolve(import.meta.dirname, 'src', path))}),
     ],
 });
