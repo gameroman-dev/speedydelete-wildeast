@@ -23,10 +23,12 @@
     },
     "devDependencies": {
         "@babel/preset-env": "^7.26.8",
+        "@babel/preset-react": "^7.26.3",
         "@babel/preset-typescript": "^7.26.0",
         "@types/minify": "^9.1.4",
         "@wildeast/core": "../core",
         "babel-loader": "^9.2.1",
+        "html-element-attributes-typescript": "^1.0.1",
         "minify": "^13.0.0",
         "tsx": "^4.19.2",
         "webpack": "^5.97.1"

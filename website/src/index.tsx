@@ -1,53 +1,34 @@
 
 import {type ProjectDisplayInfo} from '@wildeast/core';
+import {JSX, query, type Node} from './jsx';
+void JSX;
 
 
-const blankImage = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+const defaultThumbnail = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
 
-function create<T extends keyof HTMLElementTagNameMap>(tagName: T, className: string = '', textContent: string | null = null): HTMLElementTagNameMap[T] {
-    let out = document.createElement(tagName);
-    out.className = className;
-    out.textContent = textContent;
-    return out;
-}
-
-function query(query: string): HTMLElement {
-    const out = document.querySelector(query);
-    if (out === null) {
-        throw new TypeError(`missing query ${query}`);
-    }
-    return out as HTMLElement;
-}
-
-
-function createProjectListEntryElement(info: ProjectDisplayInfo, global: boolean = false): HTMLAnchorElement {
-    let out = create('a', 'project');
-    out.href = `./run?name=${info.name}${global ? '&global=true' : ''}`;
-    let iconElt = document.createElement('img');
-    iconElt.src = info.thumbnail ?? blankImage;
-    out.appendChild(iconElt);
-    let infoElt = create('div', 'info');
-    infoElt.appendChild(create('div', 'title', info.title));
-    infoElt.appendChild(create('div', 'description', info.description));
-    let extraInfoElt = create('div', 'extra-info');
-    extraInfoElt.appendChild(create('div', 'author', String(info.author)));
-    extraInfoElt.appendChild(create('div', 'plays', String(info.plays)));
-    infoElt.appendChild(extraInfoElt);
-    out.appendChild(infoElt);
-    return out;
-}
-
-function displayProjectList(elt: HTMLElement, projects: ProjectDisplayInfo[], global: boolean = false) {
-    elt.append(...projects.map((project) => createProjectListEntryElement(project, global)));
+function ProjectList({infos, global = false}: {infos: ProjectDisplayInfo[], global?: unknown}): Node {
+    return (
+        <div class='projects'>
+            {infos.map(info => (
+                <a class='project' href={`run.html?name=${info.name}&global=${Boolean(global)}`}>
+                    <img src={info.thumbnail ?? defaultThumbnail} />
+                    <div class='title'>{info.title}</div>
+                    <div class='description'>{info.description}</div>
+                    <div class='author'>{info.author}</div>
+                    <div class='plays'>{info.plays}</div>
+                </a>
+            ))}
+        </div>
+    );
 }
 
 (async () => {
     const response = await fetch('global_projects/index.json');
     if (response.ok) {
         let data = await response.json() as ProjectDisplayInfo[];
-        data = data.sort((a, b) => b.plays - a.plays);
-        displayProjectList(query('#global .projects'), data, true);
+        data = data.sort((a, b) => b.plays - a.plays).slice(0, 1);
+        query('#global .projects').append(<ProjectList infos={data} global />);
     } else {
         query('#global .projects').innerHTML = `${response.status} ${response.statusText} while fetching global_projects/index.json`;
     }
@@ -99,5 +80,6 @@ query('#create-button').addEventListener('click', () => {
         alert('ID or name cannot be empty');
         return;
     }
-    window.location.replace(`edit.html?${new URLSearchParams({name, title})}`);
+    localStorage.wildeastNextGameTitle = title;
+    window.location.replace(`edit.html?${new URLSearchParams({name})}`);
 });

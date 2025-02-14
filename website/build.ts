@@ -20,9 +20,9 @@ const copiedFiles = [
 ];
 
 const webpackedFiles = [
-    'index.ts',
-    'run.ts',
-    'edit.ts',
+    'index.tsx',
+    'run.tsx',
+    'edit.tsx',
 ];
 
 
@@ -67,6 +67,14 @@ async function afterWebpack(err: Error | null, stats?: webpack.Stats): Promise<v
     }
 }
 
+const customJSXPreset = [
+    '@babel/preset-react',
+    {
+        pragma: 'JSX.createElement',
+        pragmaFrag: 'JSX.Fragment',
+    },
+];
+
 function main() {
     if (process.argv.includes('all')) {
         try {
@@ -101,20 +109,20 @@ function main() {
         module: {
             rules: [
                 {
-                    exclude: /node_modules/,
-                    test: /\.js?$/,
+                    test: /\.js$/,
                     loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env'],
-                    },
+                    options: {presets: ['@babel/preset-env']},
                 },
                 {
                     exclude: /node_modules/,
                     test: /\.ts$/,
                     loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env', '@babel/preset-typescript'],
-                    },
+                    options: {presets: ['@babel/preset-env', '@babel/preset-typescript']},
+                },
+                {
+                    test: /\.tsx$/,
+                    loader: 'babel-loader',
+                    options: {presets: ['@babel/preset-env', '@babel/preset-typescript', customJSXPreset]},
                 },
             ],
         },

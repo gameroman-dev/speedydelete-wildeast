@@ -123,39 +123,43 @@ main > div {
 }
 
 .project {
-    padding: 25px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    padding: 20px;
+    display: grid;
+    grid-template: auto auto auto / auto auto auto;
+    justify-content: start;
+    gap: 20px;
 }
 
 .project img {
     width: 100px;
     height: 100px;
-    padding: 10px;
-}
-
-.project .info {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    grid-row: 1 / span 3;
+    grid-column: 1;
 }
 
 .project .title {
+    grid-row: 1;
+    grid-column: 2 / span 3;
     font-size: 1.5rem;
 }
 
 .project .description {
-    min-width: 100px;
+    grid-row: 2;
+    grid-column: 2 / span 3;
 }
 
-.project .extra-info {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+.project .author {
+    grid-row: 3;
+    grid-column: 2;
+}
+
+.project .author::before {
+    content: '@';
 }
 
 .project .plays {
+    grid-row: 3;
+    grid-column: 3;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -169,10 +173,6 @@ main > div {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 12"><line x1="1" y1="1" x2="8" y2="6" stroke="white" /><line x1="1" y1="12" x2="8" y2="6" stroke="white" /><line x1="1" y1="1" x2="1" y2="12" stroke="white" /></svg>');
     background-repeat: no-repeat;
     transform: translateY(-0.05em); /* hack to line it up right */
-}
-
-.project .author::before {
-    content: '@';
 }
 
 /* creation */
@@ -252,6 +252,10 @@ main > div {
 }
 
 @media (max-width: 499px) {
+
+    .project img {
+        
+    }
 
     #create-form {
         left: 5%;
