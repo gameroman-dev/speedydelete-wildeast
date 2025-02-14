@@ -19,6 +19,7 @@
 html, body {
     height: 100%;
     margin: 0;
+    padding: 0;
 }
 
 body {
@@ -26,16 +27,51 @@ body {
     flex-direction: column;
 }
 
+/* header */
+
 header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: min(40px, 10%);
+}
+
+header nav {
+    height: 100%;
+    width: 100%;
+}
+
+header ul {
+    height: 100%;
     padding: 10px;
+    margin: 0;
+    list-style: none;
     display: flex;
     flex-direction: row;
-    height: min(50px, 10%);
+    align-items: center;
+    gap: 30px;
+    user-select: none;
+}
+
+header li {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+header a:has(> .logo) {
+    height: 100%;
 }
 
 header .logo {
     height: 100%;
+    width: auto;
+    max-width: 100%;
 }
+
+/* main */
 
 main {
     flex-grow: 1;
@@ -46,7 +82,11 @@ main {
     </head>
     <body>
         <header>
-            <a href="."><img class="logo" src="img/logo.svg" alt="wildeast" /></a>
+            <nav>
+                <ul>
+                    <li><a href="."><img class="logo" src="img/logo.svg" alt="wildeast" /></a></li>
+                </ul>
+            </nav>
         </header>
         <main>
             <div id="editor"></div>

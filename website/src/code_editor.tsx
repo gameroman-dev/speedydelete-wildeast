@@ -132,7 +132,6 @@ export function CodeEditor({lang, settings = DEFAULT_SETTINGS, value = '', readO
                 tokenSettings.push({tag: tag, color: value});
             }
         }
-        console.log(tokenSettings, commentData);
         extensions.push(syntaxHighlighting(HighlightStyle.define(tokenSettings)));
     }
     // if (settings.vim && !settings.emacs) extensions.push(vim());
