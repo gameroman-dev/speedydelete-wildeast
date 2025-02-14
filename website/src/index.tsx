@@ -12,11 +12,11 @@ function ProjectList({infos, global = false}: {infos: ProjectDisplayInfo[], glob
         <div class='projects'>
             {infos.map(info => (
                 <a class='project' href={`run.html?name=${info.name}&global=${Boolean(global)}`}>
-                    <img src={info.thumbnail ?? defaultThumbnail} />
                     <div class='title'>{info.title}</div>
                     <div class='description'>{info.description}</div>
                     <div class='author'>{info.author}</div>
                     <div class='plays'>{info.plays}</div>
+                    <img src={info.thumbnail ?? defaultThumbnail} />
                 </a>
             ))}
         </div>
@@ -27,7 +27,7 @@ function ProjectList({infos, global = false}: {infos: ProjectDisplayInfo[], glob
     const response = await fetch('global_projects/index.json');
     if (response.ok) {
         let data = await response.json() as ProjectDisplayInfo[];
-        data = data.sort((a, b) => b.plays - a.plays).slice(0, 1);
+        data = data.sort((a, b) => b.plays - a.plays);
         query('#global .projects').append(<ProjectList infos={data} global />);
     } else {
         query('#global .projects').innerHTML = `${response.status} ${response.statusText} while fetching global_projects/index.json`;
