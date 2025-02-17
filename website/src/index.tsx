@@ -1,6 +1,7 @@
 
 import {type ProjectDisplayInfo} from '@wildeast/core';
 import {JSX, query, type Node} from './jsx';
+import {getAllProjectsMetadata} from './idb_manager';
 void JSX;
 
 
@@ -11,7 +12,7 @@ function ProjectList({infos, global = false}: {infos: ProjectDisplayInfo[], glob
     return (
         <div class='projects'>
             {infos.map(info => (
-                <a class='project' href={`run.html?name=${info.name}&global=${Boolean(global)}`}>
+                <a class='project' href={`run.html?name=${info.name}${global ? '&global=true' : ''}`}>
                     <div class='title'>{info.title}</div>
                     <div class='description'>{info.description}</div>
                     <div class='author'>{info.author}</div>
@@ -23,6 +24,7 @@ function ProjectList({infos, global = false}: {infos: ProjectDisplayInfo[], glob
 }
 
 (async () => {
+    query('#local .projects').append(<ProjectList infos={await getAllProjectsMetadata()} />);
     const response = await fetch('global_projects/index.json');
     if (response.ok) {
         let data = await response.json() as ProjectDisplayInfo[];
