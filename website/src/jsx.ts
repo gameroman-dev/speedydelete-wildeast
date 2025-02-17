@@ -46,6 +46,12 @@ export function Fragment({children}: {children: Node[]}): Node {
     return out;
 }
 
+export const JSX = {
+    createElement,
+    Fragment,
+}
+
+
 export function query(query: string): HTMLElement {
     const out = document.querySelector(query);
     if (out === null) {
@@ -54,11 +60,21 @@ export function query(query: string): HTMLElement {
     return out as HTMLElement;
 }
 
-
-export const JSX = {
-    createElement,
-    Fragment,
-    query,
+export function makeShowHideButton(button: HTMLElement, a: HTMLElement, b: HTMLElement, func?: (shown: boolean) => void): void {
+    let aShown = true;
+    const aDisplay = a.style.display;
+    const bDisplay = b.style.display;
+    b.style.display = 'none';
+    button.addEventListener('click', () => {
+        aShown = !aShown;
+        if (aShown) {
+            a.style.display = aDisplay;
+            b.style.display = 'none';
+        } else {
+            a.style.display = 'none';
+            b.style.display = bDisplay;
+        }
+        func(aShown);
+    });
 }
 
-export default JSX;

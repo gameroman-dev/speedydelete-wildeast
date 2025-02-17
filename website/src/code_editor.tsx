@@ -12,7 +12,6 @@ import {lintKeymap} from '@codemirror/lint'
 import {tags, type Tag} from '@lezer/highlight'
 import {JSX} from './jsx';
 import {type Settings, DEFAULT_SETTINGS, extractCommentData} from './settings';
-void JSX;
 
 
 export interface Config {
@@ -20,7 +19,7 @@ export interface Config {
     settings?: Settings;
     value?: string;
     readOnly?: boolean;
-    onChange?: (value: string, viewUpdate: ViewUpdate) => void;
+    onchange?: (value: string, viewUpdate: ViewUpdate) => void;
 }
 
 export interface DualConfig extends Config {
@@ -103,7 +102,7 @@ function runTagLiteral(key: string): Tag[] {
     });
 }
 
-export function CodeEditor({lang, settings = DEFAULT_SETTINGS, value = '', readOnly = false, onChange}: Config): HTMLDivElement & {view: EditorView} {
+export function CodeEditor({lang, settings = DEFAULT_SETTINGS, value = '', readOnly = false, onchange}: Config): HTMLDivElement & {view: EditorView} {
     const commentData = extractCommentData(settings.theme);
     let extensions: Extension[] = [
         highlightActiveLine(),
@@ -111,10 +110,10 @@ export function CodeEditor({lang, settings = DEFAULT_SETTINGS, value = '', readO
         indentUnit.of(' '.repeat(settings.tabSize)),
         (readOnly ? [EditorView.editable.of(false), EditorState.readOnly.of(true)] : []),
     ];
-    if (onChange) {
+    if (onchange) {
         extensions.push(EditorView.updateListener.of(update => {
             if (update.docChanged) {
-                onChange(update.view.state.doc.toString(), update);
+                onchange(update.view.state.doc.toString(), update);
             }
         }));
     }
@@ -160,7 +159,7 @@ export function CodeEditor({lang, settings = DEFAULT_SETTINGS, value = '', readO
     if (settings.search) extensions.push(keymap.of(searchKeymap));
     if (settings.indentWithTab) extensions.push(keymap.of([indentWithTab]));
     if (settings.lint) extensions.push(keymap.of(lintKeymap));
-    let elt = <div class="editor"></div>;
+    let elt = <div class='editor'></div>;
     elt.view = new EditorView({
         doc: value,
         parent: elt,

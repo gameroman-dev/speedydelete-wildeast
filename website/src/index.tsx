@@ -1,18 +1,17 @@
 
 import {type ProjectDisplayInfo} from '@wildeast/core';
-import {JSX, query, type Node} from './jsx';
+import {JSX, query, makeShowHideButton} from './jsx';
 import {getAllProjectsMetadata} from './idb_manager';
-void JSX;
 
 
 const defaultThumbnail = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
 
-function ProjectList({infos, global = false}: {infos: ProjectDisplayInfo[], global?: unknown}): Node {
+function ProjectList({infos, global = false}: {infos: ProjectDisplayInfo[], global?: unknown}): HTMLDivElement {
     return (
         <div class='projects'>
             {infos.map(info => (
-                <a class='project' href={`run.html?name=${info.name}${global ? '&global=true' : ''}`}>
+                <a class='project' href={`${global ? 'run' : 'edit'}.html?name=${info.name}${global ? '&global=true' : ''}`}>
                     <div class='title'>{info.title}</div>
                     <div class='description'>{info.description}</div>
                     <div class='author'>{info.author}</div>
@@ -28,7 +27,10 @@ function ProjectList({infos, global = false}: {infos: ProjectDisplayInfo[], glob
     const response = await fetch('global_projects/index.json');
     if (response.ok) {
         let data = await response.json() as ProjectDisplayInfo[];
-        // data = data.sort((a, b) => b.plays - a.plays);
+        for (let i = data.length - 1; i >= 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [data[i], data[j]] = [data[j], data[i]];
+        }
         query('#global .projects').append(<ProjectList infos={data} global />);
     } else {
         query('#global .projects').innerHTML = `${response.status} ${response.statusText} while fetching global_projects/index.json`;
@@ -36,21 +38,9 @@ function ProjectList({infos, global = false}: {infos: ProjectDisplayInfo[], glob
 })();
 
 
-let localSection = query('#local');
-let globalSection = query('#global');
-let localGlobalSwitch = query('#local-global-switch');
-let globalShown = true;
-localGlobalSwitch.addEventListener('click', () => {
-    globalShown = !globalShown;
-    if (globalShown) {
-        localGlobalSwitch.textContent = 'My Projects';
-        globalSection.style.display = 'block';
-        localSection.style.display = 'none';
-    } else {
-        localGlobalSwitch.textContent = 'Community Projects';
-        globalSection.style.display = 'none';
-        localSection.style.display = 'block';
-    }
+const localGlobalSwitch = query('#local-global-switch');
+makeShowHideButton(localGlobalSwitch, query('#local'), query('#global'), (shown) => {
+    localGlobalSwitch.textContent = shown ? 'My Projects' : 'Community Projecrs';
 });
 
 
@@ -82,5 +72,6 @@ query('#create-button').addEventListener('click', () => {
         return;
     }
     localStorage.wildeastNewProjectTitle = title;
+    localStorage.wildeastNewProjectTemplate = (query('#create-input-template') as HTMLSelectElement).value;
     window.location.replace(`edit.html?${new URLSearchParams({name})}`);
 });

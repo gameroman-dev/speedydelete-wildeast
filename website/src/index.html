@@ -183,7 +183,7 @@ main > div {
     display: none;
     position: absolute;
     top: 10%;
-    bottom: 50%;
+    bottom: 40%;
     left: 25%;
     right: 25%;
     z-index: 1;
@@ -294,6 +294,13 @@ main > div {
                 <label for="id">The internal ID for the project</label>
                 <div><label for="name">Name:&nbsp;</label><input type="text" name="name" id="create-input-title" required maxlength="32" /></div>
                 <label for="name">The public name of the project</label>
+                <div>
+                    <label for="template">Template:&nbsp;</label>
+                    <select name="template" id="create-input-template">
+                        <option value="default" selected>Default</option>
+                    </select>
+                </div>
+                <label for="template">The template code for the project</label>
                 <div><button id="create-button" class="create-button">Create</button></div>
             </div>
         </main>

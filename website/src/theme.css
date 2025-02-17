@@ -155,6 +155,10 @@ header {
     background: #000000;
 }
 
+header button, header button:hover {
+    background: transparent;
+}
+
 .create-button {
     border-radius: 20px;
     background: #d478d4;
@@ -192,12 +196,13 @@ main iframe {
     border-top: 1px solid #3c3c3c;
 }
 
-body:has(#editor) {
+main:has(#editor) {
     background: #1f1f1f;
+    border-top: 1px solid #3c3c3c;
 }
 
-main:has(#editor) {
-    border-top: 1px solid #3c3c3c;
+#info {
+    background: #000000;
 }
 
 #resizer {

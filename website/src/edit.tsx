@@ -1,12 +1,13 @@
 
 import {html} from '@codemirror/lang-html';
 import {Project} from '@wildeast/core';
-import {JSX, query} from './jsx';
+import {JSX, query, makeShowHideButton} from './jsx';
 import {CodeEditor} from './code_editor';
 import {getProject, setProject} from './idb_manager';
 
 
-const DEFAULT_CODE = `<!DOCTYPE html>
+const TEMPLATES = {
+    default: `<!DOCTYPE html>
 <html>
     <head>
         <title>{{title}}</title>
@@ -30,7 +31,8 @@ body {
         <h1>{{title}}</h1>
         <div>This is your new project!</div>
     </body>
-</html>`;
+</html>`,
+};
 
 
 const editor = query('#editor');
@@ -57,16 +59,22 @@ if (project === undefined) {
         title: localStorage.wildeastNewProjectTitle ?? name,
         description: '(No description provided)',
     });
-    project.write('index.html', DEFAULT_CODE.replaceAll('{{title}}', project.title));
+    project.write('index.html', TEMPLATES[localStorage.wildeastNewProjectTemplate].replaceAll('{{title}}', project.title));
     setProject(project);
 }
 
-editor.append(<CodeEditor
-    lang={html()}
-    value={project.read('index.html')}
-    onChange={(value) => project.write('index.html', value)}
-/>);
+const codeEditor = <CodeEditor lang={html()} value={project.read('index.html')} />;
+editor.append(codeEditor);
 runner.srcdoc = project.read('index.html');
+
+
+query('#save-button').addEventListener('click', () => {
+    const data = codeEditor.view.state.doc;
+    project.write('index.html', data);
+    setProject(project);
+    runner.srcdoc = project.read('index.html');
+    alert('Saved!');
+});
 
 
 let isResizing = false;
@@ -93,8 +101,4 @@ function handleMouseMove(event: MouseEvent) {
 }
 
 
-query('#save-button').addEventListener('click', () => {
-    setProject(project);
-    runner.srcdoc = project.read('index.html');
-    alert('Saved!');
-});
+makeShowHideButton(query('#info-button'), editor, query('#info'));

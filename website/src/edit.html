@@ -23,6 +23,10 @@ html, body {
     padding: 0;
 }
 
+h2 {
+    font-size: 1.5rem;
+}
+
 /* header */
 
 header {
@@ -32,11 +36,8 @@ header {
     right: 0;
     z-index: 10;
     height: 40px;
-}
-
-header nav {
-    height: 100%;
-    width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 header ul {
@@ -89,12 +90,33 @@ main {
 
 #resizer {
     flex: 0 0 5px;
+    margin: 0;
     cursor: col-resize;
 }
 
 #runner {
     flex: 1 1 auto;
     padding-left: 5px;
+}
+
+#info {
+    flex: 0 1 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 15px 10px 10px;
+}
+
+#info input {
+    margin-bottom: 20px;
+}
+
+#info-input-title {
+    width: min(32ch, 100%);
+}
+
+#info-input-description {
+    width: min(128ch, 100%);
 }
 
         </style>
@@ -107,8 +129,16 @@ main {
                     <li><a href="."><img class="logo" src="img/logo.svg" alt="wildeast" /></a></li>
                 </ul>
             </nav>
+            <button id="info-button">ⓘ</button>
         </header>
         <main>
+            <div id="info">
+                <h2>Info</h2>
+                <label for="name">Name</label>
+                <input type="text" name="name" id="info-input-title" required maxlength="32" />
+                <label for="description">Description</label>
+                <input type="text" name="description" id="create-input-description" required maxlength="128" />
+            </div>
             <div id="editor">
                 <button id="save-button">Save</button>
             </div>
