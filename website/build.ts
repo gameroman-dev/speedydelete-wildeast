@@ -84,7 +84,14 @@ if (process.argv.includes('all')) {
 
 
 const mode = process.argv.includes('dev') ? 'development' : 'production';
+const watching = process.argv.includes('watch');
 
+const envPreset = [
+    '@babel/preset-env',
+    {
+        targets: '> 0.5%, not dead',
+    },
+];
 const customJSXPreset = [
     '@babel/preset-react',
     {
@@ -92,6 +99,13 @@ const customJSXPreset = [
         pragmaFrag: 'JSX.Fragment',
     },
 ];
+
+let plugins: any[] = [
+    new webpack.ProvidePlugin({'JSX': './jsx'}),
+];
+if (watching) {
+    plugins.push(new WatchExternalFilesPlugin({files: copiedFiles.concat(minifiedFiles).map(path => resolve(import.meta.dirname, 'src', path))}));
+}
 
 console.log('build: running webpack\n');
 
@@ -116,20 +130,16 @@ const compiler = webpack({
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                options: {presets: ['@babel/preset-env']},
+                options: {presets: [envPreset]},
             },
             {
                 exclude: /node_modules/,
                 test: /\.ts$/,
                 loader: 'babel-loader',
-                options: {presets: ['@babel/preset-env', '@babel/preset-typescript']},
+                options: {presets: [envPreset, '@babel/preset-typescript']},
             },
             {
-                test: /\.tsx$/,
-                loader: 'babel-loader',
-                options: {presets: ['@babel/preset-env', customJSXPreset]},
-            },
-            {
+                exclude: /node_modules/,
                 test: /\.tsx$/,
                 loader: 'babel-loader',
                 options: {presets: ['@babel/preset-env', '@babel/preset-typescript', customJSXPreset]},
@@ -137,10 +147,7 @@ const compiler = webpack({
         ],
     },
     devtool: mode === 'development' ? 'source-map' : undefined,
-    plugins: [
-        new webpack.ProvidePlugin({'JSX': './jsx'}),
-        new WatchExternalFilesPlugin({files: copiedFiles.concat(minifiedFiles).map(path => resolve(import.meta.dirname, 'src', path))}),
-    ],
+    plugins: plugins,
 });
 
 if (process.argv.includes('watch')) {
