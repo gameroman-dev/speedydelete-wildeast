@@ -15,7 +15,6 @@ function ProjectList({infos, global = false}: {infos: ProjectDisplayInfo[], glob
                     <div class='title'>{info.title}</div>
                     <div class='description'>{info.description}</div>
                     <div class='author'>{info.author}</div>
-                    <div class='plays'>{info.plays}</div>
                     <img src={info.thumbnail ?? defaultThumbnail} />
                 </a>
             ))}
@@ -27,7 +26,7 @@ function ProjectList({infos, global = false}: {infos: ProjectDisplayInfo[], glob
     const response = await fetch('global_projects/index.json');
     if (response.ok) {
         let data = await response.json() as ProjectDisplayInfo[];
-        data = data.sort((a, b) => b.plays - a.plays);
+        // data = data.sort((a, b) => b.plays - a.plays);
         query('#global .projects').append(<ProjectList infos={data} global />);
     } else {
         query('#global .projects').innerHTML = `${response.status} ${response.statusText} while fetching global_projects/index.json`;
@@ -80,6 +79,6 @@ query('#create-button').addEventListener('click', () => {
         alert('ID or name cannot be empty');
         return;
     }
-    localStorage.wildeastNextGameTitle = title;
+    localStorage.wildeastNewProjectTitle = title;
     window.location.replace(`edit.html?${new URLSearchParams({name})}`);
 });

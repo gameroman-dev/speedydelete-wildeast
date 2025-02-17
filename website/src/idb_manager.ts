@@ -32,12 +32,17 @@ async function initDB(db: IDBDatabase): Promise<void> {
 
 async function getDB(): Promise<IDBDatabase> {
     let request = indexedDB.open('wildeast', 1);
-    request.onupgradeneeded = (event) => initDB(request.result);
+    request.onupgradeneeded = () => initDB(request.result);
     return awaiter(request);
 }
 
-export async function getProject(id: string): Promise<Project> {
-    return Project.import(await awaiter((await getDB()).transaction(['projects'], 'readonly').objectStore('projects').get(id)));
+export async function getProject(id: string): Promise<Project | undefined> {
+    const data = await awaiter((await getDB()).transaction(['projects'], 'readonly').objectStore('projects').get(id));
+    if (data === undefined) {
+        return undefined;
+    } else {
+        return Project.import(data.data);
+    }
 }
 
 export async function getProjectMetadata(id: string): Promise<ProjectMetadata> {
@@ -55,13 +60,12 @@ export async function setProject(project: Project): Promise<void> {
         name: project.name,
         data: project.export(),
     });
-    transaction.objectStore('project_data').put({
+    transaction.objectStore('project_metadata').put({
         name: project.name,
         version: project.version,
         title: project.title,
         description: project.description,
         author: project.author,
-        plays: project.plays,
     });
     return awaiter(transaction);
 }

@@ -12,7 +12,6 @@ export interface ProjectDisplayInfo {
     title: string;
     description: string;
     author: string;
-    plays: number;
     thumbnail?: string;
 }
 
@@ -23,6 +22,8 @@ export interface ProjectInfo extends ProjectDisplayInfo {
 
 
 const exportHeader = 'wildeast project\n';
+
+const decoder = new TextDecoder();
 
 
 export class Project implements ProjectInfo {
@@ -43,17 +44,24 @@ export class Project implements ProjectInfo {
             this.description = fs_or_info.description;
             this.author = fs_or_info.author;
             this.license = fs_or_info.license;
-            this.plays = fs_or_info.plays;
             this.thumbnail = fs_or_info.thumbnail;
         }
     }
 
+    read(path: string): string {
+        return this.fs.readFrom(path);
+    }
+
+    write(path: string, data: string): void {
+        this.fs.writeTo(path, data);
+    }
+
     getProjectInfo(): ProjectInfo {
-        return JSON.parse(this.fs.readFrom('project.json'));
+        return JSON.parse(this.read('project.json'));
     }
 
     setProjectInfo(info: ProjectInfo): void {
-        this.fs.writeTo('project.json', JSON.stringify(info));
+        this.write('project.json', JSON.stringify(info));
     }
 
     export(): Uint8Array {
@@ -129,16 +137,6 @@ export class Project implements ProjectInfo {
     set license(value: string) {
         let info = this.getProjectInfo();
         info.license = value;
-        this.setProjectInfo(info);
-    }
-
-    get plays(): number {
-        return this.getProjectInfo().plays;
-    }
-
-    set plays(value: number) {
-        let info = this.getProjectInfo();
-        info.plays = value;
         this.setProjectInfo(info);
     }
 

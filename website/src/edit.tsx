@@ -1,6 +1,100 @@
 
 import {html} from '@codemirror/lang-html';
+import {Project} from '@wildeast/core';
 import {JSX, query} from './jsx';
 import {CodeEditor} from './code_editor';
+import {getProject, setProject} from './idb_manager';
 
-query('#editor').append(<CodeEditor lang={html()} />);
+
+const DEFAULT_CODE = `<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{title}}</title>
+        <meta charset="utf-8">
+        <style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+        </style>
+    </head>
+    <body>
+        <h1>{{title}}</h1>
+        <div>This is your new project!</div>
+    </body>
+</html>`;
+
+
+const editor = query('#editor');
+const resizer = query('#resizer');
+const runner = query('#runner') as HTMLIFrameElement;
+
+
+const name = (new URLSearchParams(window.location.search)).get('name');
+if (name === undefined) {
+    window.stop();
+}
+
+if (!('wildeastUsername' in localStorage)) {
+    localStorage.wildeastUsername = window.prompt('Enter username:');
+}
+
+let project = await getProject(name);
+if (project === undefined) {
+    project = new Project({
+        name: name,
+        version: '0.1.0',
+        license: 'UNLICENSED',
+        author: localStorage.wildeastUsername,
+        title: localStorage.wildeastNewProjectTitle ?? name,
+        description: '(No description provided)',
+    });
+    project.write('index.html', DEFAULT_CODE.replaceAll('{{title}}', project.title));
+    setProject(project);
+}
+
+editor.append(<CodeEditor
+    lang={html()}
+    value={project.read('index.html')}
+    onChange={(value) => project.write('index.html', value)}
+/>);
+runner.srcdoc = project.read('index.html');
+
+
+let isResizing = false;
+
+resizer.addEventListener('mousedown', () => {
+    isResizing = true;
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        document.removeEventListener('mousemove', handleMouseMove);
+    });
+});
+
+function handleMouseMove(event: MouseEvent) {
+    if (isResizing) {
+        const containerWidth = resizer.parentElement.clientWidth;
+        const leftWidth = event.clientX;
+        const rightWidth = containerWidth - leftWidth - resizer.offsetWidth;
+        if (leftWidth > 100 && rightWidth > 100) {
+            editor.style.flex = `0 0 ${leftWidth}px`;
+            runner.style.flex = `0 0 ${rightWidth}px`;
+        }
+    }
+}
+
+
+query('#save-button').addEventListener('click', () => {
+    setProject(project);
+    runner.srcdoc = project.read('index.html');
+    alert('Saved!');
+});

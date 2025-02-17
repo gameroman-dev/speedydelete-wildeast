@@ -200,6 +200,10 @@ main:has(#editor) {
     border-top: 1px solid #3c3c3c;
 }
 
+#resizer {
+    background: #797979;
+}
+
 /* editor styles */
 
 #editor .cm-editor {

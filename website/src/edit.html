@@ -6,7 +6,7 @@
         <meta name="description" content="Play games on Wild East!" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="favicon.ico" />
-        <meta property="og:url" content="https://speedydelete.com/wildeast/">
+        <meta property="og:url" content="https://speedydelete.com/wildeast/" />
         <meta property="og:title" content="Wild East" />
         <meta property="og:description" content="Play games on Wild East!" />
         <meta property="og:image" content="https://speedydelete.com/wildeast/img/logo.svg" />
@@ -18,7 +18,7 @@
 
 html, body {
     min-height: 100%;
-    height: auto;
+    height: 100%;
     margin: 0;
     padding: 0;
 }
@@ -69,6 +69,34 @@ header .logo {
 
 /* main */
 
+main {
+    min-height: calc(100% - 42px);
+    display: flex;
+    flex-direction: row;
+}
+
+#editor {
+    flex: 0 1 50%;
+    position: relative;
+    padding-right: 5px;
+}
+
+#save-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+#resizer {
+    flex: 0 0 5px;
+    cursor: col-resize;
+}
+
+#runner {
+    flex: 1 1 auto;
+    padding-left: 5px;
+}
+
         </style>
         <link rel="stylesheet" href="theme.css" />
     </head>
@@ -81,7 +109,11 @@ header .logo {
             </nav>
         </header>
         <main>
-            <div id="editor"></div>
+            <div id="editor">
+                <button id="save-button">Save</button>
+            </div>
+            <div id="resizer"></div>
+            <iframe id="runner" src="about:blank" sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-downloads allow-popups allow-presentation allow-top-navigation allow-top-navigation-by-user-activation" allow="fullscreen; camera; microphone; geolocation; autoplay; clipboard-write; encrypted-media; accelerometer; gyroscope; payment;"></iframe>
         </main>
         <script src="edit.js"></script>
     </body>
