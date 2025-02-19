@@ -43,7 +43,6 @@ async function main(): Promise<void> {
         title: title,
         description: description,
         author: author,
-        plays: plays,
         thumbnail: thumbnail === '' ? undefined : thumbnail,
     }
     const project = new Project({

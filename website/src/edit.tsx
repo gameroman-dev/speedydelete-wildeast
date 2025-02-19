@@ -63,13 +63,16 @@ if (project === undefined) {
     setProject(project);
 }
 
+query('title').textContent = 'Editing ' + project.name;
+
 const codeEditor = <CodeEditor lang={html()} value={project.read('index.html')} />;
 editor.append(codeEditor);
 runner.srcdoc = project.read('index.html');
 
 
 query('#save-button').addEventListener('click', () => {
-    const data = codeEditor.view.state.doc;
+    const data = codeEditor.view.state.doc.toString();
+    console.log(data);
     project.write('index.html', data);
     setProject(project);
     runner.srcdoc = project.read('index.html');
@@ -112,7 +115,7 @@ descriptionInput.value = project.description;
 let versionInput = query('#info-input-version') as HTMLInputElement;
 versionInput.value = project.version;
 
-query('#info-save').addEventListener('click', async () => {
+query('#info-save-button').addEventListener('click', async () => {
     project.title = titleInput.value;
     project.description = descriptionInput.value;
     project.version = versionInput.value;
