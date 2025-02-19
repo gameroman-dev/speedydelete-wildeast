@@ -102,3 +102,29 @@ function handleMouseMove(event: MouseEvent) {
 
 
 makeShowHideButton(query('#info-button'), editor, query('#info'));
+
+let titleInput = query('#info-input-title') as HTMLInputElement;
+titleInput.value = project.title;
+
+let descriptionInput = query('#info-input-description') as HTMLInputElement;
+descriptionInput.value = project.description;
+
+let versionInput = query('#info-input-version') as HTMLInputElement;
+versionInput.value = project.version;
+
+query('#info-save').addEventListener('click', async () => {
+    project.title = titleInput.value;
+    project.description = descriptionInput.value;
+    project.version = versionInput.value;
+    await setProject(project);
+    alert('Saved!');
+});
+
+
+query('#share-button').addEventListener('click', () => {
+    const blob = new Blob([project.export()]);
+    const url = URL.createObjectURL(blob);
+    const filename = project.name + '.project';
+    (<a href={url} download={filename}></a>).click();
+    URL.revokeObjectURL(url);
+});

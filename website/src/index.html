@@ -9,7 +9,7 @@
         <meta property="og:url" content="https://speedydelete.com/wildeast/" />
         <meta property="og:title" content="Wild East" />
         <meta property="og:description" content="Wild East - Build and code websites and games!" />
-        <meta property="og:image" content="https://speedydelete.com/wildeast/img/logo.svg" />
+        <meta property="og:image" content="https://speedydelete.com/wildeast/img/icon.png" />
         <style>
 
 * {
@@ -207,7 +207,13 @@ main > div {
     width: 32ch;
 }
 
-#create-button {
+div:has(> #create-button) {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+#create-button, #import-button {
     padding: 10px;
     font-size: 1.25rem;
 }
@@ -279,7 +285,7 @@ main > div {
             <div id="local">
                 <div id="local-top">
                     <h2>My Projects</h2>
-                    <button id="open-create-form-button" class="create-button">+ Create</button>
+                    <button id="open-create-form-button" class="big-button">+ Create</button>
                 </div>
                 <div class="projects"></div>
             </div>
@@ -290,18 +296,21 @@ main > div {
             <div id="create-form">
                 <button class="x-button"></button>
                 <h2>Create Project</h2>
-                <div><label for="id">ID:&nbsp;</label><input type="text" name="id" id="create-input-name" required maxlength="16" pattern="^[a-z0-9._~\-]*$" /></div>
+                <div><label for="id">ID:&nbsp;&nbsp;</label><input type="text" name="id" id="create-input-name" required maxlength="16" pattern="^[a-z0-9._~\-]*$" /></div>
                 <label for="id">The internal ID for the project</label>
-                <div><label for="name">Name:&nbsp;</label><input type="text" name="name" id="create-input-title" required maxlength="32" /></div>
+                <div><label for="name">Name:&nbsp;&nbsp;</label><input type="text" name="name" id="create-input-title" required maxlength="32" /></div>
                 <label for="name">The public name of the project</label>
                 <div>
-                    <label for="template">Template:&nbsp;</label>
+                    <label for="template">Template:&nbsp;&nbsp;</label>
                     <select name="template" id="create-input-template">
                         <option value="default" selected>Default</option>
                     </select>
                 </div>
                 <label for="template">The template code for the project</label>
-                <div><button id="create-button" class="create-button">Create</button></div>
+                <div>
+                    <button id="create-button" class="big-button">Create</button>
+                    <button id="import-button" class="big-button">Import</button>
+                </div>
             </div>
         </main>
         <script src="index.js"></script>

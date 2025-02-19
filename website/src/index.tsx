@@ -1,7 +1,8 @@
 
-import {type ProjectDisplayInfo} from '@wildeast/core';
+import {Project, type ProjectDisplayInfo} from '@wildeast/core';
+import {showOpenFilePicker} from 'show-open-file-picker';
 import {JSX, query, makeShowHideButton} from './jsx';
-import {getAllProjectsMetadata} from './idb_manager';
+import {getAllProjectsMetadata, setProject} from './idb_manager';
 
 
 const defaultThumbnail = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
@@ -22,20 +23,27 @@ function ProjectList({infos, global = false}: {infos: ProjectDisplayInfo[], glob
     );
 }
 
-(async () => {
-    query('#local .projects').append(<ProjectList infos={await getAllProjectsMetadata()} />);
-    const response = await fetch('global_projects/index.json');
-    if (response.ok) {
-        let data = await response.json() as ProjectDisplayInfo[];
-        for (let i = data.length - 1; i >= 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [data[i], data[j]] = [data[j], data[i]];
-        }
-        query('#global .projects').append(<ProjectList infos={data} global />);
-    } else {
-        query('#global .projects').innerHTML = `${response.status} ${response.statusText} while fetching global_projects/index.json`;
+const response = await fetch('global_projects/index.json');
+if (response.ok) {
+    let data = await response.json() as ProjectDisplayInfo[];
+    for (let i = data.length - 1; i >= 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [data[i], data[j]] = [data[j], data[i]];
     }
-})();
+    query('#global .projects').append(<ProjectList infos={data} global />);
+} else {
+    query('#global .projects').innerHTML = `${response.status} ${response.statusText} while fetching global_projects/index.json`;
+}
+
+async function addLocalProjects() {
+    const elt = query('#local .projects');
+    for (const child of elt.children) {
+        child.remove();
+    }
+    elt.append(<ProjectList infos={await getAllProjectsMetadata()} />);
+}
+
+addLocalProjects();
 
 
 const localGlobalSwitch = query('#local-global-switch');
@@ -74,4 +82,33 @@ query('#create-button').addEventListener('click', () => {
     localStorage.wildeastNewProjectTitle = title;
     localStorage.wildeastNewProjectTemplate = (query('#create-input-template') as HTMLSelectElement).value;
     window.location.replace(`edit.html?${new URLSearchParams({name})}`);
+});
+
+const pickerOptions = {
+    types: [
+        {
+            description: 'Wild East projects',
+            accept: {
+                'application/x-wildeast-project': ['.project'],
+            },
+        },
+    ],
+};
+
+query('#import-button').addEventListener('click', async () => {
+    let handle: FileSystemFileHandle;
+    try {
+        // @ts-ignore
+        [handle] = await showOpenFilePicker(pickerOptions);
+    } catch (error) {
+        if (error instanceof DOMException) {
+            return;
+        } else {
+            throw error;
+        }
+    }
+    const data = await (await handle.getFile()).arrayBuffer();
+    setProject(Project.import(new Uint8Array(data)));
+    addLocalProjects();
+    createFormElt.style.display = 'none';
 });

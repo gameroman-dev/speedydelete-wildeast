@@ -18,6 +18,7 @@ const copiedFiles = [
     'favicon.ico',
     'img/icon.svg',
     'img/logo.svg',
+    'img/icon.png'
 ];
 
 const webpackedFiles = [
@@ -25,6 +26,9 @@ const webpackedFiles = [
     'run.tsx',
     'edit.tsx',
 ];
+
+
+const mode = process.argv.includes('dev') ? 'development' : 'production';
 
 
 function buildOthers(): void {
@@ -42,11 +46,17 @@ function copyFiles(): void {
 }
 
 async function minifyFiles(): Promise<void> {
-    console.log('build: minifying files');
-    for (const file of minifiedFiles) {
-        writeFileSync(join('dist', file), await minify(join('src', file), {
-            
-        }));
+    if (mode === 'development') {
+        for (const file of minifiedFiles) {
+            copyFileSync(join('src', file), join('dist', file));
+        }
+    } else {
+        console.log('build: minifying files');
+        for (const file of minifiedFiles) {
+            writeFileSync(join('dist', file), await minify(join('src', file), {
+                
+            }));
+        }
     }
 }
 
@@ -83,7 +93,6 @@ if (process.argv.includes('all')) {
 }
 
 
-const mode = process.argv.includes('dev') ? 'development' : 'production';
 const watching = process.argv.includes('watch');
 
 const envPreset = [

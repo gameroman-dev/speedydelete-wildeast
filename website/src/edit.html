@@ -9,7 +9,7 @@
         <meta property="og:url" content="https://speedydelete.com/wildeast/" />
         <meta property="og:title" content="Wild East" />
         <meta property="og:description" content="Play games on Wild East!" />
-        <meta property="og:image" content="https://speedydelete.com/wildeast/img/logo.svg" />
+        <meta property="og:image" content="https://speedydelete.com/wildeast/img/icon.png" />
         <style>
             
 * {
@@ -38,6 +38,11 @@ header {
     height: 40px;
     display: flex;
     flex-direction: row;
+    font-size: 1.25rem;
+}
+
+header nav {
+    margin-right: 10px;
 }
 
 header ul {
@@ -66,6 +71,21 @@ header a:has(> .logo) {
 
 header .logo {
     height: 20px;
+}
+
+header button {
+    width: 35px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+}
+
+#share-button svg {
+    height: 50%;
+}
+
+#share-button line {
+    stroke: white;
 }
 
 /* main */
@@ -107,7 +127,7 @@ main {
     padding: 10px 15px 10px 10px;
 }
 
-#info input {
+#info > :not(label) {
     margin-bottom: 20px;
 }
 
@@ -117,6 +137,10 @@ main {
 
 #info-input-description {
     width: min(128ch, 100%);
+}
+
+#info-input-version {
+    width: 10ch;
 }
 
         </style>
@@ -130,14 +154,28 @@ main {
                 </ul>
             </nav>
             <button id="info-button">ⓘ</button>
+            <button id="share-button">
+                <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 14">
+                    <line x1="5.5" y1="1" x2="5.5" y2="10" />
+                    <line x1="5.5" y1="1" x2="3" y2="3.5" />
+                    <line x1="5.5" y1="1" x2="8" y2="3.5" />
+                    <line x1="1" y1="5" x2="4" y2="5" />
+                    <line x1="7" y1="5" x2="10" y2="5" />
+                    <line x1="1" y1="5" x2="1" y2="13" />
+                    <line x1="10" y1="5" x2="10" y2="13" />
+                    <line x1="1" y1="13" x2="10" y2="13" />
+                </svg>
+            </button>
         </header>
         <main>
             <div id="info">
                 <h2>Info</h2>
-                <label for="name">Name</label>
+                <label for="name">Name:</label>
                 <input type="text" name="name" id="info-input-title" required maxlength="32" />
-                <label for="description">Description</label>
-                <input type="text" name="description" id="create-input-description" required maxlength="128" />
+                <label for="description">Description:</label>
+                <input type="text" name="description" id="info-input-description" required maxlength="128" />
+                <div><label for="version">Version:&nbsp;&nbsp;</label><input type="text" name="version" id="info-input-version" required maxlength="10" /></div>
+                <div><button id="info-save">Save</button></div>
             </div>
             <div id="editor">
                 <button id="save-button">Save</button>

@@ -157,14 +157,15 @@ header {
 
 header button, header button:hover {
     background: transparent;
+    border: none;
 }
 
-.create-button {
+.big-button {
     border-radius: 20px;
     background: #d478d4;
 }
 
-.create-button:hover {
+.big-button:hover {
     background: #c16ec1;
 }
 
