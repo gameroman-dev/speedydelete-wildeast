@@ -1,6 +1,6 @@
 {
   "name": "@wildeast/core",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Core wildeast package defining projects.",
   "license": "MIT",
   "author": "speedydelete",
@@ -27,6 +27,6 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "fake-node": "fake-node"
+    "fake-node": "fake-node@latest"
   }
 }

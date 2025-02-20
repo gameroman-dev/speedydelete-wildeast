@@ -30,7 +30,7 @@
         "@codemirror/state": "^6.5.2",
         "@lezer/highlight": "^1.2.1",
         "@types/minify": "^9.1.4",
-        "@wildeast/core": "../core",
+        "@wildeast/core": "@wildeast/core@latest",
         "babel-loader": "^9.2.1",
         "codemirror": "^6.0.1",
         "html-element-attributes-typescript": "^1.0.1",
