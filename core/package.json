@@ -27,6 +27,6 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "fake-node": "../../fake-node"
+    "fake-node": "fake-node"
   }
 }
