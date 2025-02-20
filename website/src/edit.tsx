@@ -35,9 +35,9 @@ body {
 };
 
 
-const editor = query('#editor');
-const resizer = query('#resizer');
-const runner = query('#runner') as HTMLIFrameElement;
+let editor = query('#editor');
+let resizer = query('#resizer');
+let runner = query('#runner') as HTMLIFrameElement;
 
 
 const name = (new URLSearchParams(window.location.search)).get('name');
@@ -70,7 +70,8 @@ editor.append(codeEditor);
 runner.srcdoc = project.read('index.html');
 
 
-query('#save-button').addEventListener('click', () => {
+let saveButton = query('#save-button');
+saveButton.addEventListener('click', () => {
     const data = codeEditor.view.state.doc.toString();
     console.log(data);
     project.write('index.html', data);
@@ -99,6 +100,7 @@ function handleMouseMove(event: MouseEvent) {
         if (leftWidth > 100 && rightWidth > 100) {
             editor.style.flex = `0 0 ${leftWidth}px`;
             runner.style.flex = `0 0 ${rightWidth}px`;
+            saveButton.style.right = rightWidth + 10 + 'px';
         }
     }
 }
