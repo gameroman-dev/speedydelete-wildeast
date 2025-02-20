@@ -296,13 +296,13 @@ div:has(> #create-button) {
             <div id="create-form">
                 <button class="x-button"></button>
                 <h2>Create Project</h2>
-                <div><label for="id">ID:&nbsp;&nbsp;</label><input type="text" name="id" id="create-input-name" required maxlength="16" pattern="^[a-z0-9._~\-]*$" /></div>
-                <label for="id">The internal ID for the project</label>
-                <div><label for="name">Name:&nbsp;&nbsp;</label><input type="text" name="name" id="create-input-title" required maxlength="32" /></div>
+                <div><label for="create-input-name">ID:&nbsp;&nbsp;</label><input type="text" id="create-input-name" required maxlength="16" pattern="^[a-z0-9._~\-]*$" /></div>
+                <label for="create-input-title">The internal ID for the project</label>
+                <div><label for="name">Name:&nbsp;&nbsp;</label><input type="text" id="create-input-title" required maxlength="32" /></div>
                 <label for="name">The public name of the project</label>
                 <div>
-                    <label for="template">Template:&nbsp;&nbsp;</label>
-                    <select name="template" id="create-input-template">
+                    <label for="create-input-template">Template:&nbsp;&nbsp;</label>
+                    <select id="create-input-template">
                         <option value="default" selected>Default</option>
                     </select>
                 </div>
